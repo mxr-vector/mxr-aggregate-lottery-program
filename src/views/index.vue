@@ -8,6 +8,8 @@ import RandomSort from "@/components/RandomSort.vue";
 const currentApply = ref(DrawTurntable)
 const applyMap = new Map()
 
+const curIdx = ref()
+
 async function initData() {
   applyMap.set('随机轮盘', DrawTurntable);
   applyMap.set('骰子', Dice);
@@ -26,13 +28,13 @@ onMounted(() => {
 <template>
   <div class="common-layout">
     <el-container>
-      <el-header>
+      <el-header class="headerTop">
         <el-row :gutter="20">
           <el-col :span="6" v-for="(applyName,index) in applyMap.keys()"
                   :key="index">
-            <a href="javascript:void(0);" @click="currentApply = applyMap.get(applyName)">
+            <text :class="[curIdx == index?'textActive':'']" @click="currentApply = applyMap.get(applyName)">
               {{ applyName }}
-            </a>
+            </text>
           </el-col>
         </el-row>
       </el-header>
@@ -43,6 +45,23 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.headerTop {
+  height: 50px;
+  background-color: #343a40;
+  line-height: 50px;
 
+  .el-col {
+    text {
+      user-select: none;
+      cursor: pointer;
+      color: #9a9481;
+    }
+
+    .textActive {
+      color: white;
+    }
+
+  }
+}
 </style>
