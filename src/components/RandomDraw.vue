@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {KnuthShuffle} from "@/assets/ts/utils.ts";
 
 const colors = ['#F0E68C', '#ADD8E6', '#F0FFF0', '#D3D3D3', '#FFB6C1', '#E0FFFF', '#EEE8AA', '#DB7093', '#FAFAD2', '#CD5C5C']
 const startText = ref('开始') // 开始按钮文字
@@ -61,14 +62,7 @@ function getAllCard() {
   })
 }
 
-function KnuthShuffle(array: RuleClassify[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    let temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-}
+
 
 function updateTitle() {
   ElMessageBox.prompt('请输入抽签标题', '提示', {
