@@ -1,9 +1,4 @@
-# Vue 3 + TypeScript + Vite
+# 聚合抽签系统
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+这个项目旨在帮助用户在抽签时，能够快速、准确地获取抽签结果，适用于团建、会议等场景。最重要的是他是开源的，您可以基于本项目进行二次开发，实现自己的抽签系统。！
 
-## Recommended Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (previously Volar) and disable Vetur
-
-- Use [vue-tsc](https://github.com/vuejs/language-tools/tree/master/packages/tsc) for performing the same type checking from the command line, or for generating d.ts files for SFCs.

@@ -16,6 +16,10 @@ async function initData() {
   applyMap.set('随机排序', RandomSort);
   applyMap.set('随机抽签器', RandomDraw);
 }
+function changeApply(idx: number, applyName: string) {
+  curIdx.value = idx
+  currentApply.value = applyMap.get(applyName)
+}
 
 onBeforeMount(() => {
   initData()
@@ -32,7 +36,7 @@ onMounted(() => {
         <el-row :gutter="20">
           <el-col :span="6" v-for="(applyName,index) in applyMap.keys()"
                   :key="index">
-            <text :class="[curIdx == index?'textActive':'']" @click="currentApply = applyMap.get(applyName)">
+            <text :class="[curIdx == index?'textActive':'']" @click="changeApply(index, applyName)">
               {{ applyName }}
             </text>
           </el-col>
