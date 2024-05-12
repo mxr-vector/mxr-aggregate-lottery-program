@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Dice: typeof import('./src/components/Dice.vue')['default']
     DrawTurntable: typeof import('./src/components/DrawTurntable.vue')['default']
+    DrawWheel: typeof import('./src/components/DrawWheel.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElButton: typeof import('element-plus/es')['ElButton']

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    drawTurntable
+    drawWheel
 </template>
 
 <style scoped>

@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import {onBeforeMount, onMounted, ref} from "vue";
 import Dice from "@/components/Dice.vue";
-import DrawTurntable from "@/components/DrawTurntable.vue";
+import DrawWheel from "@/components/DrawWheel.vue";
 import RandomDraw from "@/components/RandomDraw.vue";
 import RandomSort from "@/components/RandomSort.vue";
 import IndexFooter from "@/components/indexFooter.vue";
 
-const currentApply = ref(DrawTurntable)
+const currentApply = ref(DrawWheel)
 const applyMap = new Map()
 
 const curIdx = ref(0)
 
 async function initData() {
-  applyMap.set('随机轮盘', DrawTurntable);
+  applyMap.set('随机轮盘', DrawWheel);
   applyMap.set('随机抽签器', RandomDraw);
   applyMap.set('骰子', Dice);
   applyMap.set('随机排序', RandomSort);
