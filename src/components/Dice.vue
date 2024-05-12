@@ -1,149 +1,109 @@
 <script setup lang="ts">
-// 鼠标左键点击事件
-document.onmousedown = function (event) {
-  var that = document.getElementById('box');
-  var reg = /\-?[0-9]+\.?[0-9]*/g;
-  var bf = that.style.transform || '0,0';
-  var arr = bf.match(reg);
-  var bfX = Number(arr[0]);
-  var bfY = Number(arr[1]);
-  var startX = event.pageX;
-  var startY = event.pageY;
-  // 鼠标指针移动到指定位置的对象时发生
-  document.onmousemove = function (event) {
-    var disX = event.pageX - startX;
-    var disY = event.pageY - startY;
-    var y = (disX + bfY) % 360;
-    var x = -(disY + bfX) % 360;
-    that.style.webkitTransform = "rotateX(" + x + "deg) rotateY(" + y + "deg) rotateZ(0deg)";
-  };
-  // 鼠标按键被松开时发生的事件
-  document.onmouseup = function (event) {
-    document.onmousemove = null;
-    document.onmouseup = null;
-  };
-  return false;
+import {ref} from 'vue'
+
+const boxRef = ref<HTMLElement | null>(null)
+const isBan = ref(false)
+
+async function roll() {
+  if (boxRef.value) {
+    isBan.value = true;
+    boxRef.value.style.animationPlayState = 'running'
+  }
+  setTimeout(() => {
+    if (boxRef.value) {
+      boxRef.value.style.animationPlayState = 'paused';
+      isBan.value = false;
+    }
+  }, Math.floor(Math.random() * 1000 * 6))
 }
+
+
 </script>
 
 <template>
-  <div class="box" id="box">
-    <div class="con1">1</div>
-    <div class="con2">2</div>
-    <div class="con3">3</div>
-    <div class="con4">4</div>
-    <div class="con5">5</div>
-    <div class="con6">6</div>
-  </div>
+  <section>
+    <div id="box" ref="boxRef">
+      <p id="front">正面</p>
+      <p id="top">顶面</p>
+      <p id="back">背面</p>
+      <p id="bottom">底面</p>
+      <p id="left">左面</p>
+      <p id="right">右面</p>
+    </div>
+  </section>
+  <el-button @click="roll()" :disabled="isBan">掷骰子</el-button>
 </template>
 
 <style scoped>
 * {
-  /* 不使用项目符号 */
-  list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.rotate-box {
-  height: 300px;
-  width: 300px;
-  overflow: hidden; /* 隐藏翻转上去和翻转下去的图片 */
+section {
+  width: 200px;
+  height: 200px;
+  /* 设置景深 */
+  perspective: 10000px;
+  margin: 50px auto;
 }
 
-.rotate-inner {
-  transition: all .4s ease;
-  perspective: 300px; /* 重点属性，定义 3D 元素距视图的距离，有他才有3D效果 */
-  -webkit-perspective: 300px;
-}
-
-/* 设置关键帧，动画旋转显示 */
-@keyframes boxRevolve {
-  0% {
-    transform: rotateX(20deg) rotateY(200deg);
+@keyframes r {
+  from {
+    transform: rotateX(0deg) rotateY(0deg)
   }
-  25% {
-    transform: rotateX(200deg) rotateY(380deg);
-  }
-  50% {
-    transform: rotateX(20deg) rotateY(560deg);
-  }
-  75% {
-    transform: rotateX(-160deg) rotateY(740deg);
-  }
-  100% {
-    transform: rotateX(20deg) rotateY(920deg);
+  to {
+    transform: rotateX(360deg) rotateY(360deg)
   }
 }
 
-.box {
-  width: 300px;
-  height: 300px;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: 200px auto;
+#box {
+  width: 200px;
+  height: 200px;
+  perspective: 10000px;
+  /* 既是p标签的舞台，自己也是section标签的演员 要设置transform-style*/
   transform-style: preserve-3d;
-  transform: rotateX(20deg) rotateY(-50deg);
-  /* 关键帧的开启与开启时间 */
-  /* animation: boxRevolve 30s linear infinite; */
+  position: relative;
+  animation: r 1s linear 0s infinite alternate;
+  animation-play-state: paused;
+
 }
 
-.box div {
-  width: 300px;
-  height: 300px;
-  text-align: center;
-  list-style: 300px;
-  font-size: 100px;
-  font-weight: bolder;
-  color: #fff;
+#box p {
+  width: 200px;
+  height: 200px;
   position: absolute;
-  left: 0;
   top: 0;
-  opacity: 0.5;
-  /* 设置透明度 */
-  opacity: 0.7;
-  box-shadow: 0 0 10px rgb(100, 99, 99);
+  left: 0;
 }
 
-.con1 {
-  /* 设置颜色 */
-  background-color: skyblue;
-  /* 图片大小，100%是充满 */
-  background-size: 100% 100%;
-  /* 元素的2D或3D的转换 */
-  transform: translateZ(150px);
+#front {
+  transform: translateZ(100px);
+  background-color: rgba(210, 105, 30, 0.438);
 }
 
-.con2 {
-  background-color: slateblue;
-  background-size: 100% 100%;
-  transform: translateZ(-150px);
+#top {
+  transform: rotateX(90deg) translateZ(100px);
+  background-color: rgba(22, 243, 232, 0.226);
 }
 
-.con3 {
-  background-color: springgreen;
-  background-size: 100% 100%;
-  transform: translateY(150px) rotateX(-90deg);
+#back {
+  transform: translateZ(-100px);
+  background-color: rgba(13, 104, 241, 0.397);
 }
 
-.con4 {
-  background-color: springgreen;
-  background-size: 100% 100%;
-  transform: translateY(-150px) rotateX(90deg);
+#bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+  background-color: rgba(124, 238, 17, 0.315);
 }
 
-.con5 {
-  background-color: teal;
-  background-size: 100% 100%;
-  transform: translateX(150px) rotateY(90deg);
+#left {
+  transform: rotateY(-90deg) translateZ(100px);
+  background-color: rgba(233, 10, 177, 0.432);
 }
 
-.con6 {
-  background-color: yellow;
-  background-size: 100% 100%;
-  transform: translateX(-150px) rotateY(90deg);
+#right {
+  transform: rotateY(90deg) translateZ(100px);
+  background-color: rgba(238, 17, 17, 0.438);
 }
 </style>
