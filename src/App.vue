@@ -6,5 +6,6 @@
 </template>
 
 <style scoped>
-
+@import './assets/css/common.css';
+@import './assets/css/style.css';
 </style>

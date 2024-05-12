@@ -81,3 +81,63 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+
+.index-footer {
+  background: url(@/assets/images/f-bg.png) no-repeat center top #2a2e34;
+  padding: 60px 0 0;
+  box-sizing: border-box;
+  margin-top: 1em;
+}
+
+.index-footer-info {
+  margin-bottom: 50px;
+  padding: 0 100px;
+  box-sizing: border-box;
+}
+
+.index-footer-info .lianxi {
+  width: 60%;
+  margin-right: 3%;
+}
+
+.index-footer-info .lianxi h2 {
+  color: #cdcdcd;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.index-footer-info .lianxi p {
+  color: #cdcdcd;
+}
+
+
+.index-footer-info .erweima {
+  width: 100px;
+  height: 100px;
+}
+
+.index-footer-info .erweima img {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: block;
+  margin: 0 auto;
+}
+
+.index-footer-info .erweima p {
+  text-align: center;
+  color: #cdcdcd;
+}
+
+.index-footer-bottom {
+  background: #000000;
+  color: #ffffff;
+  padding: 15px 0;
+}
+
+.index-footer-bottom a {
+  color: #ffffff;
+}
