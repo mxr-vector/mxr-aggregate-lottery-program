@@ -9,9 +9,14 @@ declare module 'vue' {
   export interface GlobalComponents {
     Dice: typeof import('./src/components/Dice.vue')['default']
     DrawTurntable: typeof import('./src/components/DrawTurntable.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElRow: typeof import('element-plus/es')['ElRow']
     RandomDraw: typeof import('./src/components/RandomDraw.vue')['default']
@@ -19,5 +24,8 @@ declare module 'vue' {
     RandomSort: typeof import('./src/components/RandomSort.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

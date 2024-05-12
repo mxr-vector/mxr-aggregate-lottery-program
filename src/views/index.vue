@@ -8,7 +8,7 @@ import RandomSort from "@/components/RandomSort.vue";
 const currentApply = ref(DrawTurntable)
 const applyMap = new Map()
 
-const curIdx = ref()
+const curIdx = ref(0)
 
 async function initData() {
   applyMap.set('随机轮盘', DrawTurntable);
@@ -63,7 +63,7 @@ onMounted(() => {
     }
 
     .textActive {
-      color: white;
+      color: #f9f9f9;
     }
 
   }
