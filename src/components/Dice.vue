@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {nextTick, ref} from 'vue'
+import {RefreshRight} from "@element-plus/icons-vue";
 
 const boxRef = ref<HTMLElement | null>(null)
 const isAnimating = ref(false)
@@ -55,7 +56,7 @@ async function roll() {
 
   const {axis, angle} = getNextRotation();
   rotations[axis].value = angle; // 更新旋转角度
-
+  console.log(angle)
   await nextTick(); // 等待下一帧
   boxRef.value.style.transition = 'transform 2s ease';
 
@@ -93,7 +94,9 @@ async function roll() {
   </section>
 
   <section>
-    <el-button @click="roll()" :disabled="isAnimating" size="large">掷骰子</el-button>
+    <el-button @click="roll()" :disabled="isAnimating" type="primary">掷骰子
+      <el-icon><RefreshRight /></el-icon>
+    </el-button>
 
     <div class="flex flex-wrap gap-4 items-center">
       <el-select
