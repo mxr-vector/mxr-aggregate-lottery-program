@@ -38,16 +38,14 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
+import {formatTime} from "@/assets/ts/utils.ts";
 
 const formattedCurrentTime = ref()
 onMounted(()=>{
-  setInterval(updateTime,1000)
+  setInterval(() => {
+    formattedCurrentTime.value = formatTime(new Date())
+  },1000)
 })
-
-async function updateTime(){
-  const now = new Date();
-  formattedCurrentTime.value = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-}
 </script>
 <style scoped>
 </style>
