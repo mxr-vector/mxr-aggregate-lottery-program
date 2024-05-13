@@ -1,20 +1,67 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {nextTick, ref} from 'vue'
 
 const boxRef = ref<HTMLElement | null>(null)
-const isBan = ref(false)
+const isAnimating = ref(false)
+const rotations = {
+  x: ref(0),
+  y: ref(0),
+  z: ref(0),
+};
+const currentAxis = ref('x'); // 初始旋转轴为X轴
+
+
+// 定义一个函数来决定下一个旋转的轴和方向
+const getNextRotation = () => {
+  const axes = ['x', 'y', 'z'];
+  const currentIndex = axes.indexOf(currentAxis.value);
+  const nextIndex = (currentIndex + 1) % axes.length; // 循环到下一个轴
+  const nextAxis = axes[nextIndex];
+
+  // 额外旋转两圈
+  const extraDegrees = 2 * 360;
+  // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
+  let angle = 90;
+  if (nextAxis === 'x') {
+    angle = rotations.x.value % 360 === 0 ? 90 : -90;
+  } else if (nextAxis === 'y') {
+    angle = rotations.y.value % 360 === 0 ? 90 : -90;
+  } else if (nextAxis === 'z') {
+    angle = rotations.z.value % 360 === 0 ? 90 : -90;
+  }
+  angle += extraDegrees;
+  currentAxis.value = nextAxis; // 更新当前旋转轴
+  return { axis: nextAxis, angle };
+};
 
 async function roll() {
-  if (boxRef.value) {
-    isBan.value = true;
-    boxRef.value.style.animationPlayState = 'running'
+  if (isAnimating.value || !boxRef.value) return;
+
+  isAnimating.value = true;
+
+  const { axis, angle } = getNextRotation();
+
+  rotations[axis].value += angle; // 更新旋转角度
+
+  await nextTick(); // 等待下一帧
+  boxRef.value.style.transition = 'transform 1s ease';
+
+  // 应用变换
+  switch(axis) {
+    case 'x':
+      boxRef.value.style.transform = `rotateX(${rotations.x.value}deg)`;
+      break;
+    case 'y':
+      boxRef.value.style.transform = `rotateY(${rotations.y.value}deg)`;
+      break;
+    case 'z':
+      boxRef.value.style.transform = `rotateZ(${rotations.z.value}deg)`;
+      break;
   }
-  setTimeout(() => {
-    if (boxRef.value) {
-      boxRef.value.style.animationPlayState = 'paused';
-      isBan.value = false;
-    }
-  }, Math.floor(Math.random() * 1000 * 6))
+
+  await new Promise(resolve => setTimeout(resolve, 1000)); // 等待动画结束
+  boxRef.value.style.transition = ''; // 移除过渡效果
+  isAnimating.value = false; // 动画结束
 }
 
 
@@ -31,7 +78,7 @@ async function roll() {
       <p id="right">右面</p>
     </div>
   </section>
-  <el-button @click="roll()" :disabled="isBan">掷骰子</el-button>
+  <el-button @click="roll()" :disabled="isAnimating">掷骰子</el-button>
 </template>
 
 <style scoped>
@@ -64,9 +111,8 @@ section {
   /* 既是p标签的舞台，自己也是section标签的演员 要设置transform-style*/
   transform-style: preserve-3d;
   position: relative;
-  animation: r 1s linear 0s infinite alternate;
   animation-play-state: paused;
-
+  /* animation: r 1s linear 0s infinite alternate; */
 }
 
 #box p {
