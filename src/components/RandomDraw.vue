@@ -11,8 +11,7 @@ const textarea = ref('1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15') // 默
 
 interface RuleClassify {
   content: string,
-  open: boolean,
-  date: string
+  open: boolean
 }
 
 const classify = ref<RuleClassify[]>([])
@@ -25,7 +24,7 @@ function begin() {
   loading.value = true // 开始洗牌
   startText.value = '重新开始'
   textarea.value.split('\n').map((item) => {
-    classify.value.push({content: item, open: false,date: formatTime(new Date())});
+    classify.value.push({content: item, open: false});
   })
   KnuthShuffle(classify.value)
   setTimeout(() => {
@@ -44,7 +43,10 @@ const tableData = ref<RuleTableData[]>([]) // 抽签器数据
 function pushTableData(item: RuleClassify) {
   if (!item.open) {
     item.open = true; // 打开卡牌结果
-    tableData.value.push(item)
+    tableData.value.push({
+      content: item.content,
+      date: formatTime(new Date())
+    })
   }
 }
 
