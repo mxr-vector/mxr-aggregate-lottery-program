@@ -44,7 +44,7 @@ async function roll() {
   rotations[axis].value += angle; // 更新旋转角度
 
   await nextTick(); // 等待下一帧
-  boxRef.value.style.transition = 'transform 1s ease';
+  boxRef.value.style.transition = 'transform 2s ease';
 
   // 应用变换
   switch(axis) {
@@ -59,7 +59,7 @@ async function roll() {
       break;
   }
 
-  await new Promise(resolve => setTimeout(resolve, 1000)); // 等待动画结束
+  await new Promise(resolve => setTimeout(resolve, 2000)); // 等待动画结束
   boxRef.value.style.transition = ''; // 移除过渡效果
   isAnimating.value = false; // 动画结束
 }
@@ -70,12 +70,12 @@ async function roll() {
 <template>
   <section>
     <div id="box" ref="boxRef">
-      <p id="front">正面</p>
-      <p id="top">顶面</p>
-      <p id="back">背面</p>
-      <p id="bottom">底面</p>
-      <p id="left">左面</p>
-      <p id="right">右面</p>
+      <p id="front">⚫</p>
+      <p id="top">⚫⚫</p>
+      <p id="back">⚫⚫⚫</p>
+      <p id="bottom">⚫⚫⚫⚫</p>
+      <p id="left">⚫⚫⚫⚫⚫</p>
+      <p id="right">⚫⚫⚫⚫⚫⚫</p>
     </div>
   </section>
   <el-button @click="roll()" :disabled="isAnimating">掷骰子</el-button>
@@ -118,6 +118,9 @@ section {
 #box p {
   width: 200px;
   height: 200px;
+  line-height: 200px;
+  text-align: center;
+  border-radius: 25px;
   position: absolute;
   top: 0;
   left: 0;
