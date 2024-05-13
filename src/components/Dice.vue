@@ -19,7 +19,7 @@ const getNextRotation = () => {
   const nextAxis = axes[nextIndex];
 
   // 额外旋转n圈
-  const extraDegrees = 2 * 360;
+  const extraDegrees = Math.floor(Math.random()* 7);
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
   if (nextAxis === 'x') {
