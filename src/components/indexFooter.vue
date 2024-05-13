@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <p>{{formattedCurrentTime }}</p>
+  </div>
   <footer class="index-footer">
     <div class="clearfix index-footer-info index-con">
       <div class="lianxi fl">
@@ -34,6 +37,17 @@
 
 
 <script setup lang="ts">
+import {onMounted, ref} from "vue";
+
+const formattedCurrentTime = ref()
+onMounted(()=>{
+  setInterval(updateTime,1000)
+})
+
+async function updateTime(){
+  const now = new Date();
+  formattedCurrentTime.value = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+}
 </script>
 <style scoped>
 </style>
