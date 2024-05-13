@@ -10,7 +10,7 @@ const rotations = {
 };
 const currentAxis = ref('x'); // 初始旋转轴为X轴
 
-
+// const piceCount = ref(1)
 // 定义一个函数来决定下一个旋转的轴和方向
 const getNextRotation = () => {
   const axes = ['x', 'y', 'z'];
@@ -19,7 +19,7 @@ const getNextRotation = () => {
   const nextAxis = axes[nextIndex];
 
   // 额外旋转n圈
-  const extraDegrees = Math.floor(Math.random() * 7) * 360;
+  const extraDegrees = 2 * 360;
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
   if (nextAxis === 'x') {
@@ -78,7 +78,25 @@ async function roll() {
       <p id="right">⚫⚫⚫⚫⚫⚫</p>
     </div>
   </section>
-  <el-button @click="roll()" :disabled="isAnimating">掷骰子</el-button>
+
+  <section>
+    <el-button @click="roll()" :disabled="isAnimating" size="large">掷骰子</el-button>
+
+<!--    <div class="flex flex-wrap gap-4 items-center">-->
+<!--      <el-select-->
+<!--          v-model="piceCount"-->
+<!--          style="width: 80px"-->
+<!--      >-->
+<!--        <el-option-->
+<!--            v-for="val in [1,2,3,4,5,6]"-->
+<!--            :key="val"-->
+<!--            :label="val"-->
+<!--            :value="val"-->
+<!--        />-->
+<!--      </el-select>-->
+<!--    </div>-->
+  </section>
+
 </template>
 
 <style scoped>
@@ -127,32 +145,44 @@ section {
 }
 
 #front {
+  border: 2px solid #343a40;
   transform: translateZ(100px);
-  background-color: rgba(210, 105, 30, 0.438);
+  /*background-color: rgba(210, 105, 30, 0.438);*/
+  background-color: #fffaf0;
 }
 
 #top {
+  border: 2px solid #343a40;
   transform: rotateX(90deg) translateZ(100px);
-  background-color: rgba(22, 243, 232, 0.226);
+  /*background-color: rgba(22, 243, 232, 0.226);*/
+  background-color: #fffaf0;
 }
 
 #back {
+  border: 2px solid #343a40;
   transform: translateZ(-100px);
-  background-color: rgba(13, 104, 241, 0.397);
+  /*background-color: rgba(13, 104, 241, 0.397);*/
+  background-color: #fffaf0;
 }
 
 #bottom {
+  border: 2px solid #343a40;
   transform: rotateX(-90deg) translateZ(100px);
-  background-color: rgba(124, 238, 17, 0.315);
+  /*background-color: rgba(124, 238, 17, 0.315);*/
+  background-color: #fffaf0;
 }
 
 #left {
+  border: 2px solid #343a40;
   transform: rotateY(-90deg) translateZ(100px);
-  background-color: rgba(233, 10, 177, 0.432);
+  /*background-color: rgba(233, 10, 177, 0.432);*/
+  background-color: #fffaf0;
 }
 
 #right {
+  border: 2px solid #343a40;
   transform: rotateY(90deg) translateZ(100px);
-  background-color: rgba(238, 17, 17, 0.438);
+  /*background-color: rgba(238, 17, 17, 0.438);*/
+  background-color: #fffaf0;
 }
 </style>
