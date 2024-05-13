@@ -19,17 +19,31 @@ const getNextRotation = () => {
   const nextAxis = axes[nextIndex];
 
   // 额外旋转n圈
-  const extraDegrees = Math.floor(Math.random()* 7);
+  // 360和1080都是90的倍数，因此我们找出这个范围内90度倍数的最小值和最大值
+  const minAngle = 360; // 或者直接写作 4 * 90，因为360度相当于4个90度
+  const maxAngle = 1080; // 同理，1080度是12个90度
+
+  // 计算这个范围内有多少个90度的间隔
+  const intervalCount = (maxAngle - minAngle) / 90;
+
+  // 生成一个随机的整数，代表选中的间隔位置
+  const randomInterval = Math.floor(Math.random() * intervalCount);
+
+  // 计算实际的角度值
+  const randomAngle = minAngle + (randomInterval * 90);
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
-  if (nextAxis === 'x') {
-    angle = rotations.x.value % 360 === 0 ? 90 : -90;
-  } else if (nextAxis === 'y') {
-    angle = rotations.y.value % 360 === 0 ? 90 : -90;
-  } else if (nextAxis === 'z') {
-    angle = rotations.z.value % 360 === 0 ? 90 : -90;
+  switch (nextAxis) {
+    case 'x':
+      angle = rotations.x.value % 360 === 0 ? randomAngle : -randomAngle;
+      break;
+    case 'y':
+      angle = rotations.y.value % 360 === 0 ? randomAngle : -randomAngle;
+      break;
+    case'z' :
+      angle = rotations.z.value % 360 === 0 ? randomAngle : -randomAngle;
+      break;
   }
-  angle += extraDegrees;
   currentAxis.value = nextAxis; // 更新当前旋转轴
   return {axis: nextAxis, angle};
 };
@@ -40,8 +54,7 @@ async function roll() {
   isAnimating.value = true;
 
   const {axis, angle} = getNextRotation();
-  console.log(angle)
-  rotations[axis].value += angle; // 更新旋转角度
+  rotations[axis].value = angle; // 更新旋转角度
 
   await nextTick(); // 等待下一帧
   boxRef.value.style.transition = 'transform 2s ease';
