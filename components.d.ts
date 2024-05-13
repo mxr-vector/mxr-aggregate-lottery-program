@@ -8,15 +8,31 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Dice: typeof import('./src/components/Dice.vue')['default']
-    DrawTurntable: typeof import('./src/components/DrawTurntable.vue')['default']
+    DrawWheel: typeof import('./src/components/DrawWheel.vue')['default']
+    'DrawWheel.vue.BASE': typeof import('./src/components/DrawWheel.vue.BASE.vue')['default']
+    'DrawWheel.vue.LOCAL': typeof import('./src/components/DrawWheel.vue.LOCAL.vue')['default']
+    'DrawWheel.vue.REMOTE': typeof import('./src/components/DrawWheel.vue.REMOTE.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElBacktop: typeof import('element-plus/es')['ElBacktop']
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
+    ElOption: typeof import('element-plus/es')['ElOption']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    IndexFooter: typeof import('./src/components/indexFooter.vue')['default']
     RandomDraw: typeof import('./src/components/RandomDraw.vue')['default']
     RandomSort: typeof import('./src/components/RandomSort.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

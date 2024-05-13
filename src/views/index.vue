@@ -1,31 +1,33 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, ref } from "vue";
+import {onBeforeMount, onMounted, ref, shallowRef} from "vue";
 import Dice from "@/components/Dice.vue";
-import DrawTurntable from "@/components/DrawTurntable.vue";
+import DrawWheel from "@/components/DrawWheel.vue";
 import RandomDraw from "@/components/RandomDraw.vue";
 import RandomSort from "@/components/RandomSort.vue";
+import IndexFooter from "@/components/indexFooter.vue";
 
-const currentApply = ref(DrawTurntable);
-const applyMap = new Map();
+const currentApply = shallowRef(DrawWheel)
+const applyMap = new Map()
 
-const curIdx = ref(0);
+const curIdx = ref(0)
 
 async function initData() {
-  applyMap.set("随机轮盘", DrawTurntable);
-  applyMap.set("骰子", Dice);
-  applyMap.set("随机排序", RandomSort);
-  applyMap.set("随机抽签器", RandomDraw);
+  applyMap.set('随机轮盘', DrawWheel);
+  applyMap.set('随机抽签器', RandomDraw);
+  applyMap.set('骰子', Dice);
+  applyMap.set('随机排序', RandomSort);
 }
 function changeApply(idx: number, applyName: string) {
-  curIdx.value = idx;
-  currentApply.value = applyMap.get(applyName);
+  curIdx.value = idx
+  currentApply.value = applyMap.get(applyName)
 }
 
 onBeforeMount(() => {
-  initData();
-});
+  initData()
+})
 
-onMounted(() => {});
+onMounted(() => {
+})
 </script>
 
 <template>
@@ -33,15 +35,9 @@ onMounted(() => {});
     <el-container>
       <el-header class="headerTop">
         <el-row :gutter="20">
-          <el-col
-            :span="6"
-            v-for="(applyName, index) in applyMap.keys()"
-            :key="index"
-          >
-            <text
-              :class="[curIdx == index ? 'textActive' : '']"
-              @click="changeApply(index, applyName)"
-            >
+          <el-col :span="6" v-for="(applyName,index) in applyMap.keys()"
+                  :key="index">
+            <text :class="[curIdx == index?'textActive':'']" @click="changeApply(index, applyName)">
               {{ applyName }}
             </text>
           </el-col>
@@ -52,6 +48,9 @@ onMounted(() => {});
       </el-main>
     </el-container>
   </div>
+
+  <!--footer-->
+  <IndexFooter/>
 </template>
 
 <style scoped lang="scss">
@@ -68,8 +67,9 @@ onMounted(() => {});
     }
 
     .textActive {
-      color: white;
+      color: #f9f9f9;
     }
+
   }
 }
 </style>
