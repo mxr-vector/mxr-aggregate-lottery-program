@@ -13,10 +13,14 @@ function begin() {
   KnuthShuffle(tempArray)
   textarea.value = ''
   setTimeout(() => {
-    loading.value = false // 结束洗牌
-    tempArray.map(item => {
-      textarea.value += item + '\n'
+    tempArray.map((item,idx) => {
+      textarea.value += item
+      if(idx < tempArray.length-1){
+        textarea.value += '\n'
+      }
+
     })
+    loading.value = false // 结束洗牌
   }, 2000)
 }
 
@@ -39,7 +43,7 @@ function reset(){
   >
   </el-input>
 
-  <el-button @click="begin()">随机化</el-button>
+  <el-button @click="begin()" type="primary">随机化</el-button>
   <el-button @click="reset()">复原</el-button>
 </template>
 
