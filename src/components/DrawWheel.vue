@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from "vue"; // 导入Vue的onMounted生命周期钩子
+import {onMounted, reactive, watch} from "vue"; // 导入Vue的onMounted生命周期钩子
 
 let canvas: HTMLCanvasElement | null = null; // 定义Canvas元素变量
 let ctx: CanvasRenderingContext2D | null = null; // 定义2D上下文变量
@@ -33,7 +33,7 @@ onMounted(() => {
 
     if (ctx) {
       //此段代码是为了让canvas更清晰
-      const { width, height } = canvas;
+      const {width, height} = canvas;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       canvas.style.width = width + "px";
@@ -91,6 +91,7 @@ function drawClockTicks(centerX: number, centerY: number): void {
     ctx.closePath(); // 结束路径
   }
 }
+
 // 绘制时钟数字
 function drawClockNumbers(centerX: number, centerY: number): void {
   if (!ctx) return;
@@ -108,11 +109,13 @@ function drawClockNumbers(centerX: number, centerY: number): void {
     ctx.fillText(divideContentList[i], x, y); // 绘制数字
   }
 }
+
 // 监听数组变化  重绘
 watch(divideContentList, () => {
   ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // 清空画布
   drawClock();
 });
+
 // 添加数据
 function addData() {
   divideContentList.push("新增");
@@ -162,7 +165,7 @@ function rotateCircular() {
   <div class="turnMain">
     <div class="turnContent">
       <canvas id="clockCanvas" width="500" height="500"></canvas>
-      <button @click="rotateCircular">旋转</button>
+      <el-button type="primary" @click="rotateCircular">旋转</el-button>
       <!-- <button @click="redraw">绘制</button> -->
       <div class="result"></div>
     </div>
@@ -181,9 +184,9 @@ function rotateCircular() {
             }
           "
         />
-        <div class="deleteItem" @click="divideContentList.splice(index,1)"  >删除</div>
+        <div class="deleteItem" @click="divideContentList.splice(index,1)">删除</div>
       </div>
-      <button @click="addData">新增</button>
+      <el-button @click="addData">新增</el-button>
     </div>
   </div>
 </template>
@@ -193,6 +196,7 @@ function rotateCircular() {
   display: flex;
   justify-content: center;
 }
+
 .turnContent {
   position: relative;
   width: 500px;
@@ -200,6 +204,7 @@ function rotateCircular() {
   canvas {
     border: 1px solid #000;
   }
+
   .result {
     position: absolute;
     content: "";
@@ -213,6 +218,7 @@ function rotateCircular() {
     right: 0;
   }
 }
+
 .control {
   width: 200px;
   margin-left: 50px;
@@ -238,12 +244,15 @@ function rotateCircular() {
       border-radius: 5px;
     }
   }
+
   .controlItem:hover .deleteItem {
     display: block;
   }
+
   .controlItem:hover input {
     background-color: #e8e8e8;
   }
+
   input {
     flex: 1;
     width: 100%;
