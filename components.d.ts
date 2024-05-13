@@ -15,7 +15,6 @@ declare module 'vue' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElRow: typeof import('element-plus/es')['ElRow']
     RandomDraw: typeof import('./src/components/RandomDraw.vue')['default']
-    RandomDrawOfLots: typeof import('./src/components/randomDrawOfLots.vue')['default']
     RandomSort: typeof import('./src/components/RandomSort.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
