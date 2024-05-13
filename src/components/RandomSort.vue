@@ -43,13 +43,20 @@ function reset() {
     >
     </el-input>
 
-    <el-button @click="begin()" type="primary">随机化</el-button>
+    <el-button style="margin-left: 10px" @click="begin()" type="primary">随机化</el-button>
     <el-button @click="reset()">复原</el-button>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .randomSortMain {
   min-height: 400px;
+  .el-textarea {
+    width: 450px !important;
+    height: 400px !important;
+    ::v-deep .el-textarea__inner {
+      height: 100%;
+    }
+  }
 }
 </style>
