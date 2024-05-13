@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from "vue"; // µ¼ÈëVueµÄonMountedÉúÃüÖÜÆÚ¹³×Ó
+import { onMounted, reactive, ref, watch } from "vue"; // å¯¼å…¥Vueçš„onMountedç”Ÿå‘½å‘¨æœŸé’©å­
 
-let canvas: HTMLCanvasElement | null = null; // ¶¨ÒåCanvasÔªËØ±äÁ¿
-let ctx: CanvasRenderingContext2D | null = null; // ¶¨Òå2DÉÏÏÂÎÄ±äÁ¿
-let rotating = false; // ±êÖ¾Î»£¬±íÊ¾ÊÇ·ñÕıÔÚĞı×ª
-const dpr = window.devicePixelRatio; // »ñÈ¡Éè±¸ÏñËØ±È
-let centerX: number; // ¶¨ÒåÔ²ĞÄX×ø±ê±äÁ¿
-let centerY: number; // ¶¨ÒåÔ²ĞÄY×ø±ê±äÁ¿
-let rotateTimer: NodeJS.Timeout | null = null; // ¶¨Òå¶¨Ê±Æ÷±äÁ¿
-let rotateTime: number = 5000; // Ğı×ªÊ±¼ä
+let canvas: HTMLCanvasElement | null = null; // å®šä¹‰Canvaså…ƒç´ å˜é‡
+let ctx: CanvasRenderingContext2D | null = null; // å®šä¹‰2Dä¸Šä¸‹æ–‡å˜é‡
+let rotating = false; // æ ‡å¿—ä½ï¼Œè¡¨ç¤ºæ˜¯å¦æ­£åœ¨æ—‹è½¬
+const dpr = window.devicePixelRatio; // è·å–è®¾å¤‡åƒç´ æ¯”
+let centerX: number; // å®šä¹‰åœ†å¿ƒXåæ ‡å˜é‡
+let centerY: number; // å®šä¹‰åœ†å¿ƒYåæ ‡å˜é‡
+let rotateTimer: NodeJS.Timeout | null = null; // å®šä¹‰å®šæ—¶å™¨å˜é‡
+let rotateTime: number = 5000; // æ—‹è½¬æ—¶é—´
 
 let divideContentList = reactive([
   "1",
@@ -26,13 +26,13 @@ let divideContentList = reactive([
 ]);
 
 onMounted(() => {
-  // »ñÈ¡ Canvas ÔªËØºÍ 2D ÉÏÏÂÎÄ
-  canvas = document.getElementById("clockCanvas") as HTMLCanvasElement; // »ñÈ¡CanvasÔªËØ
+  // è·å– Canvas å…ƒç´ å’Œ 2D ä¸Šä¸‹æ–‡
+  canvas = document.getElementById("clockCanvas") as HTMLCanvasElement; // è·å–Canvaså…ƒç´ 
   if (canvas) {
-    ctx = canvas.getContext("2d"); // »ñÈ¡2DÉÏÏÂÎÄ
+    ctx = canvas.getContext("2d"); // è·å–2Dä¸Šä¸‹æ–‡
 
     if (ctx) {
-      //´Ë¶Î´úÂëÊÇÎªÁËÈÃcanvas¸üÇåÎú
+      //æ­¤æ®µä»£ç æ˜¯ä¸ºäº†è®©canvasæ›´æ¸…æ™°
       const { width, height } = canvas;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
@@ -40,119 +40,119 @@ onMounted(() => {
       canvas.style.height = height + "px";
       ctx.scale(dpr, dpr);
 
-      centerX = canvas.width / (2 * dpr); // ¼ÆËãÔ²ĞÄX×ø±ê
-      centerY = canvas.height / (2 * dpr); // ¼ÆËãÔ²ĞÄY×ø±ê
-      ctx.translate(centerX, centerY); // Æ½ÒÆÖÁÔ²ĞÄ
-      drawClock(); // Èç¹û³É¹¦»ñÈ¡µ½2DÉÏÏÂÎÄ£¬Ôò»æÖÆ
+      centerX = canvas.width / (2 * dpr); // è®¡ç®—åœ†å¿ƒXåæ ‡
+      centerY = canvas.height / (2 * dpr); // è®¡ç®—åœ†å¿ƒYåæ ‡
+      ctx.translate(centerX, centerY); // å¹³ç§»è‡³åœ†å¿ƒ
+      drawClock(); // å¦‚æœæˆåŠŸè·å–åˆ°2Dä¸Šä¸‹æ–‡ï¼Œåˆ™ç»˜åˆ¶
     }
   }
 });
 
-// ³õÊ¼»æÖÆÕû¸öÊ±ÖÓ
+// åˆå§‹ç»˜åˆ¶æ•´ä¸ªæ—¶é’Ÿ
 function drawClock(): void {
-  if (!canvas || !ctx) return; // Èç¹ûCanvasÔªËØ»ò2DÉÏÏÂÎÄ²»´æÔÚ£¬Ôò·µ»Ø
+  if (!canvas || !ctx) return; // å¦‚æœCanvaså…ƒç´ æˆ–2Dä¸Šä¸‹æ–‡ä¸å­˜åœ¨ï¼Œåˆ™è¿”å›
 
-  drawClockFace(0, 0); // »æÖÆµÄÍâÔ²
-  drawClockTicks(0, 0); // »æÖÆµÄ¿Ì¶È
-  drawClockNumbers(0, 0); // »æÖÆµÄÊı×Ö
-  // ÇëÇóÏÂÒ»Ö¡¶¯»­
+  drawClockFace(0, 0); // ç»˜åˆ¶çš„å¤–åœ†
+  drawClockTicks(0, 0); // ç»˜åˆ¶çš„åˆ»åº¦
+  drawClockNumbers(0, 0); // ç»˜åˆ¶çš„æ•°å­—
+  // è¯·æ±‚ä¸‹ä¸€å¸§åŠ¨ç”»
   // requestAnimationFrame(drawClock);
 }
 
-// »æÖÆÍâÔ²
+// ç»˜åˆ¶å¤–åœ†
 function drawClockFace(centerX: number, centerY: number): void {
-  if (!ctx) return; // Èç¹û2DÉÏÏÂÎÄ²»´æÔÚ£¬Ôò·µ»Ø
+  if (!ctx) return; // å¦‚æœ2Dä¸Šä¸‹æ–‡ä¸å­˜åœ¨ï¼Œåˆ™è¿”å›
 
-  ctx.beginPath(); // ¿ªÊ¼Â·¾¶
-  ctx.arc(centerX, centerY, 240, 0, Math.PI * 2); // »æÖÆÔ²ĞÎ
-  ctx.lineWidth = 2; // ÉèÖÃÏß¿í
-  ctx.strokeStyle = "#000"; // ÉèÖÃÃè±ßÑÕÉ«
-  ctx.stroke(); // »æÖÆÃè±ß
-  ctx.closePath(); // ½áÊøÂ·¾¶
+  ctx.beginPath(); // å¼€å§‹è·¯å¾„
+  ctx.arc(centerX, centerY, 240, 0, Math.PI * 2); // ç»˜åˆ¶åœ†å½¢
+  ctx.lineWidth = 2; // è®¾ç½®çº¿å®½
+  ctx.strokeStyle = "#000"; // è®¾ç½®æè¾¹é¢œè‰²
+  ctx.stroke(); // ç»˜åˆ¶æè¾¹
+  ctx.closePath(); // ç»“æŸè·¯å¾„
 }
 
-// »æÖÆ¿Ì¶È
+// ç»˜åˆ¶åˆ»åº¦
 function drawClockTicks(centerX: number, centerY: number): void {
-  if (!ctx) return; // Èç¹û2DÉÏÏÂÎÄ²»´æÔÚ£¬Ôò·µ»Ø
+  if (!ctx) return; // å¦‚æœ2Dä¸Šä¸‹æ–‡ä¸å­˜åœ¨ï¼Œåˆ™è¿”å›
 
   for (let i = 0; i < divideContentList.length; i++) {
-    const angle = ((Math.PI * 2) / divideContentList.length) * i; // ¼ÆËã½Ç¶È
-    const x1 = centerX; // ¼ÆËã¿Ì¶ÈÏßÆğµãX×ø±ê
-    const y1 = centerY; // ¼ÆËã¿Ì¶ÈÏßÆğµãY×ø±ê
-    const x2 = centerX + Math.sin(angle) * 240; // ¼ÆËã¿Ì¶ÈÏßÖÕµãX×ø±ê
-    const y2 = centerY - Math.cos(angle) * 240; // ¼ÆËã¿Ì¶ÈÏßÖÕµãY×ø±ê
+    const angle = ((Math.PI * 2) / divideContentList.length) * i; // è®¡ç®—è§’åº¦
+    const x1 = centerX; // è®¡ç®—åˆ»åº¦çº¿èµ·ç‚¹Xåæ ‡
+    const y1 = centerY; // è®¡ç®—åˆ»åº¦çº¿èµ·ç‚¹Yåæ ‡
+    const x2 = centerX + Math.sin(angle) * 240; // è®¡ç®—åˆ»åº¦çº¿ç»ˆç‚¹Xåæ ‡
+    const y2 = centerY - Math.cos(angle) * 240; // è®¡ç®—åˆ»åº¦çº¿ç»ˆç‚¹Yåæ ‡
 
-    ctx.beginPath(); // ¿ªÊ¼Â·¾¶
-    ctx.moveTo(x1, y1); // ÒÆ¶¯µ½Æğµã
-    ctx.lineTo(x2, y2); // »æÖÆ¿Ì¶ÈÏß
-    ctx.lineWidth = 1.5; // ÉèÖÃÏß¿í
-    ctx.strokeStyle = "#000"; // ÉèÖÃÃè±ßÑÕÉ«
-    ctx.stroke(); // »æÖÆÃè±ß
-    ctx.closePath(); // ½áÊøÂ·¾¶
+    ctx.beginPath(); // å¼€å§‹è·¯å¾„
+    ctx.moveTo(x1, y1); // ç§»åŠ¨åˆ°èµ·ç‚¹
+    ctx.lineTo(x2, y2); // ç»˜åˆ¶åˆ»åº¦çº¿
+    ctx.lineWidth = 1.5; // è®¾ç½®çº¿å®½
+    ctx.strokeStyle = "#000"; // è®¾ç½®æè¾¹é¢œè‰²
+    ctx.stroke(); // ç»˜åˆ¶æè¾¹
+    ctx.closePath(); // ç»“æŸè·¯å¾„
   }
 }
-// »æÖÆÊ±ÖÓÊı×Ö
+// ç»˜åˆ¶æ—¶é’Ÿæ•°å­—
 function drawClockNumbers(centerX: number, centerY: number): void {
   if (!ctx) return;
 
-  const radius = 170; // Êı×ÖµÄ°ë¾¶¾àÀë£¬Ïà¶ÔÓÚÔ²ĞÄ
-  const fontSize = 30 * dpr; // Êı×ÖµÄ×ÖÌå´óĞ¡
-  ctx.font = `${fontSize}px Arial`; // ÉèÖÃ×ÖÌåÑùÊ½
-  ctx.textBaseline = "middle"; // ÎÄ×Ö´¹Ö±¾ÓÖĞ
-  ctx.textAlign = "center"; // ÎÄ×ÖË®Æ½¾ÓÖĞ
+  const radius = 170; // æ•°å­—çš„åŠå¾„è·ç¦»ï¼Œç›¸å¯¹äºåœ†å¿ƒ
+  const fontSize = 30 * dpr; // æ•°å­—çš„å­—ä½“å¤§å°
+  ctx.font = `${fontSize}px Arial`; // è®¾ç½®å­—ä½“æ ·å¼
+  ctx.textBaseline = "middle"; // æ–‡å­—å‚ç›´å±…ä¸­
+  ctx.textAlign = "center"; // æ–‡å­—æ°´å¹³å±…ä¸­
 
   for (let i = 0; i < divideContentList.length; i++) {
-    const angle = ((Math.PI * 2) / divideContentList.length) * (i - 0.5); // Ã¿¸öĞ¡Ê±Êı×ÖÎ»ÓÚÁ½¸ö¿Ì¶ÈµÄÖĞ¼ä£¬ËùÒÔ¼õÈ¥0.5
+    const angle = ((Math.PI * 2) / divideContentList.length) * (i - 0.5); // æ¯ä¸ªå°æ—¶æ•°å­—ä½äºä¸¤ä¸ªåˆ»åº¦çš„ä¸­é—´ï¼Œæ‰€ä»¥å‡å»0.5
     const x = centerX + Math.sin(angle) * radius;
     const y = centerY - Math.cos(angle) * radius;
-    ctx.fillText(divideContentList[i], x, y); // »æÖÆÊı×Ö
+    ctx.fillText(divideContentList[i], x, y); // ç»˜åˆ¶æ•°å­—
   }
 }
-// ¼àÌıÊı×é±ä»¯  ÖØ»æ
+// ç›‘å¬æ•°ç»„å˜åŒ–  é‡ç»˜
 watch(divideContentList, () => {
-  ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // Çå¿Õ»­²¼
+  ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // æ¸…ç©ºç”»å¸ƒ
   drawClock();
 });
-// Ìí¼ÓÊı¾İ
+// æ·»åŠ æ•°æ®
 function addData() {
-  divideContentList.push("ĞÂÔö");
+  divideContentList.push("æ–°å¢");
 }
 
-// Ğı×ª
+// æ—‹è½¬
 function rotateCircular() {
   console.log(divideContentList);
-  if (!canvas || !ctx) return; // Èç¹ûCanvasÔªËØ»ò2DÉÏÏÂÎÄ²»´æÔÚ£¬Ôò·µ»Ø
+  if (!canvas || !ctx) return; // å¦‚æœCanvaså…ƒç´ æˆ–2Dä¸Šä¸‹æ–‡ä¸å­˜åœ¨ï¼Œåˆ™è¿”å›
   ctx?.save();
-  const accelerationTime: number = rotateTime / 5; // ¼ÓËÙÊ±¼ä
-  const decelerationTime: number = accelerationTime; // ¼õËÙÊ±¼ä
-  let alRotatedTime: number = 0; // Ğı×ªÊ±¼ä
-  let rotationSpeed: number = 0.01; // Ğı×ªËÙ¶È
+  const accelerationTime: number = rotateTime / 5; // åŠ é€Ÿæ—¶é—´
+  const decelerationTime: number = accelerationTime; // å‡é€Ÿæ—¶é—´
+  let alRotatedTime: number = 0; // æ—‹è½¬æ—¶é—´
+  let rotationSpeed: number = 0.01; // æ—‹è½¬é€Ÿåº¦
   if (!rotating) {
-    rotating = true; // ¿ªÊ¼Ğı×ª
+    rotating = true; // å¼€å§‹æ—‹è½¬
 
     rotateTimer = setInterval(() => {
-      ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // Çå¿Õ»­²¼
-      alRotatedTime += 16; // Ğı×ªÊ±¼äÀÛ¼Ó
-      // console.log("Ê±¼ä", alRotatedTime, "ËÙ¶È", rotationSpeed);
+      ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // æ¸…ç©ºç”»å¸ƒ
+      alRotatedTime += 16; // æ—‹è½¬æ—¶é—´ç´¯åŠ 
+      // console.log("æ—¶é—´", alRotatedTime, "é€Ÿåº¦", rotationSpeed);
       if (alRotatedTime < accelerationTime) {
-        // Èç¹û¼ÓËÙÊ±¼äÎ´µ½£¬Ôò¼ÓËÙ
-        console.log("¼ÓËÙ");
+        // å¦‚æœåŠ é€Ÿæ—¶é—´æœªåˆ°ï¼Œåˆ™åŠ é€Ÿ
+        console.log("åŠ é€Ÿ");
         rotationSpeed += 0.002;
       } else if (alRotatedTime > decelerationTime || rotationSpeed > 0.3) {
-        // Èç¹û¼ÓËÙÊ±¼äÒÑµ½£¬Ôò¼õËÙ
-        console.log("¼õËÙ");
-        rotationSpeed >= 0 ? (rotationSpeed -= 0.0005) : ""; // ·ÀÖ¹ËÙ¶ÈÎª¸º
+        // å¦‚æœåŠ é€Ÿæ—¶é—´å·²åˆ°ï¼Œåˆ™å‡é€Ÿ
+        console.log("å‡é€Ÿ");
+        rotationSpeed >= 0 ? (rotationSpeed -= 0.0005) : ""; // é˜²æ­¢é€Ÿåº¦ä¸ºè´Ÿ
       }
-      drawClock(); // »æÖÆ
+      drawClock(); // ç»˜åˆ¶
       ctx?.rotate(rotationSpeed * Math.PI);
-    }, 16); // Ã¿16ºÁÃëĞı×ªÒ»´Î
+    }, 16); // æ¯16æ¯«ç§’æ—‹è½¬ä¸€æ¬¡
     setTimeout(() => {
-      clearInterval(rotateTimer!); // Í£Ö¹Ğı×ª
-      rotating = false; // ±êÖ¾Î»ÖØÖÃ
-    }, rotateTime); // Ğı×ªnÃëºóÍ£Ö¹
+      clearInterval(rotateTimer!); // åœæ­¢æ—‹è½¬
+      rotating = false; // æ ‡å¿—ä½é‡ç½®
+    }, rotateTime); // æ—‹è½¬nç§’ååœæ­¢
   } else {
     clearInterval(rotateTimer!);
-    rotating = false; // ±êÖ¾Î»ÖØÖÃ
+    rotating = false; // æ ‡å¿—ä½é‡ç½®
     ctx?.restore();
   }
 }
@@ -162,28 +162,28 @@ function rotateCircular() {
   <div class="turnMain">
     <div class="turnContent">
       <canvas id="clockCanvas" width="500" height="500"></canvas>
-      <button @click="rotateCircular">Ğı×ª</button>
-      <!-- <button @click="redraw">»æÖÆ</button> -->
+      <button @click="rotateCircular">æ—‹è½¬</button>
+      <!-- <button @click="redraw">ç»˜åˆ¶</button> -->
       <div class="result"></div>
     </div>
     <div class="control">
       <div
-        class="controlItem"
-        v-for="(item, index) in divideContentList"
-        :key="index"
+          class="controlItem"
+          v-for="(item, index) in divideContentList"
+          :key="index"
       >
         <input
-          type="text"
-          :value="item"
-          @input="
+            type="text"
+            :value="item"
+            @input="
             (e) => {
               divideContentList[index] = e.target.value;
             }
           "
         />
-      <div class="deleteItem" @click="divideContentList.splice(index,1)"  >É¾³ı</div>
+        <div class="deleteItem" @click="divideContentList.splice(index,1)"  >åˆ é™¤</div>
       </div>
-      <button @click="addData">ĞÂÔö</button>
+      <button @click="addData">æ–°å¢</button>
     </div>
   </div>
 </template>
@@ -207,7 +207,7 @@ function rotateCircular() {
     height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-right: 35px solid #5ddf61; /* ¼ıÍ·ÑÕÉ« */
+    border-right: 35px solid #5ddf61; /* ç®­å¤´é¢œè‰² */
     z-index: 5;
     top: 238px;
     right: 0;
@@ -225,13 +225,13 @@ function rotateCircular() {
     position: relative;
 
     .deleteItem {
-      display: none; /* Ä¬ÈÏÒş²ØÉ¾³ı°´Å¥ */
-      position: absolute; /* ¾ø¶Ô¶¨Î»Ê¹°´Å¥Î»ÓÚ¿Ø¼şÏîÄÚ²¿ */
-      top: 0; /* µ÷Õû°´Å¥Î»ÖÃ */
-      right: 0; /* Ê¹Æä¿¿ÓÒÏÔÊ¾ */
-      background-color: #fe2416; /* Ê¾Àı±³¾°É« */
-      color: white; /* ÎÄ±¾ÑÕÉ« */
-      padding: 0 5px; /* ÄÚ±ß¾à */
+      display: none; /* é»˜è®¤éšè—åˆ é™¤æŒ‰é’® */
+      position: absolute; /* ç»å¯¹å®šä½ä½¿æŒ‰é’®ä½äºæ§ä»¶é¡¹å†…éƒ¨ */
+      top: 0; /* è°ƒæ•´æŒ‰é’®ä½ç½® */
+      right: 0; /* ä½¿å…¶é å³æ˜¾ç¤º */
+      background-color: #fe2416; /* ç¤ºä¾‹èƒŒæ™¯è‰² */
+      color: white; /* æ–‡æœ¬é¢œè‰² */
+      padding: 0 5px; /* å†…è¾¹è· */
       cursor: pointer;
       font-size: 14px;
       line-height: 18px;

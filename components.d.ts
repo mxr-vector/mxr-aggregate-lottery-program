@@ -9,9 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     Dice: typeof import('./src/components/Dice.vue')['default']
     DrawWheel: typeof import('./src/components/DrawWheel.vue')['default']
-    'DrawWheel.vue.BASE': typeof import('./src/components/DrawWheel.vue.BASE.vue')['default']
-    'DrawWheel.vue.LOCAL': typeof import('./src/components/DrawWheel.vue.LOCAL.vue')['default']
-    'DrawWheel.vue.REMOTE': typeof import('./src/components/DrawWheel.vue.REMOTE.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElButton: typeof import('element-plus/es')['ElButton']
