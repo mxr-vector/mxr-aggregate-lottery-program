@@ -18,8 +18,8 @@ const getNextRotation = () => {
   const nextIndex = (currentIndex + 1) % axes.length; // 循环到下一个轴
   const nextAxis = axes[nextIndex];
 
-  // 额外旋转两圈
-  const extraDegrees = 2 * 360;
+  // 额外旋转n圈
+  const extraDegrees = Math.floor(Math.random() * 7) * 360;
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
   if (nextAxis === 'x') {
@@ -31,7 +31,7 @@ const getNextRotation = () => {
   }
   angle += extraDegrees;
   currentAxis.value = nextAxis; // 更新当前旋转轴
-  return { axis: nextAxis, angle };
+  return {axis: nextAxis, angle};
 };
 
 async function roll() {
@@ -39,15 +39,15 @@ async function roll() {
 
   isAnimating.value = true;
 
-  const { axis, angle } = getNextRotation();
-
+  const {axis, angle} = getNextRotation();
+  console.log(angle)
   rotations[axis].value += angle; // 更新旋转角度
 
   await nextTick(); // 等待下一帧
   boxRef.value.style.transition = 'transform 2s ease';
 
   // 应用变换
-  switch(axis) {
+  switch (axis) {
     case 'x':
       boxRef.value.style.transform = `rotateX(${rotations.x.value}deg)`;
       break;
