@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import {nextTick, ref} from 'vue'
-import {RefreshRight} from "@element-plus/icons-vue";
+import { nextTick, ref } from "vue";
+import { RefreshRight } from "@element-plus/icons-vue";
 
-const boxRef = ref<HTMLElement | null>(null)
-const isAnimating = ref(false)
+const boxRef = ref<HTMLElement | null>(null);
+const isAnimating = ref(false);
 const rotations = {
   x: ref(0),
   y: ref(0),
   z: ref(0),
 };
-const currentAxis = ref('x'); // 初始旋转轴为X轴
+const currentAxis = ref("x"); // 初始旋转轴为X轴
 
-const piceCount = ref(1)
+const piceCount = ref(1);
 // 定义一个函数来决定下一个旋转的轴和方向
 const getNextRotation = () => {
-  const axes = ['x', 'y', 'z'];
+  const axes = ["x", "y", "z"];
   const currentIndex = axes.indexOf(currentAxis.value);
   const nextIndex = (currentIndex + 1) % axes.length; // 循环到下一个轴
   const nextAxis = axes[nextIndex];
@@ -31,22 +31,22 @@ const getNextRotation = () => {
   const randomInterval = Math.floor(Math.random() * intervalCount);
 
   // 计算实际的角度值
-  const randomAngle = minAngle + (randomInterval * 90);
+  const randomAngle = minAngle + randomInterval * 90;
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
   switch (nextAxis) {
-    case 'x':
+    case "x":
       angle = rotations.x.value % 360 === 0 ? randomAngle : -randomAngle;
       break;
-    case 'y':
+    case "y":
       angle = rotations.y.value % 360 === 0 ? randomAngle : -randomAngle;
       break;
-    case'z' :
+    case "z":
       angle = rotations.z.value % 360 === 0 ? randomAngle : -randomAngle;
       break;
   }
   currentAxis.value = nextAxis; // 更新当前旋转轴
-  return {axis: nextAxis, angle};
+  return { axis: nextAxis, angle };
 };
 
 async function roll() {
@@ -54,68 +54,75 @@ async function roll() {
 
   isAnimating.value = true;
 
-  const {axis, angle} = getNextRotation();
+  const { axis, angle } = getNextRotation();
   rotations[axis].value = angle; // 更新旋转角度
-  console.log(angle)
+  // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
-  boxRef.value.style.transition = 'transform 2s ease';
+  boxRef.value.style.transition = "transform 2s ease";
 
   // 应用变换
   switch (axis) {
-    case 'x':
+    case "x":
+      console.log("x", rotations.x.value);
       boxRef.value.style.transform = `rotateX(${rotations.x.value}deg)`;
       break;
-    case 'y':
+    case "y":
+      console.log("y", rotations.y.value);
       boxRef.value.style.transform = `rotateY(${rotations.y.value}deg)`;
       break;
-    case 'z':
+    case "z":
+      console.log("z", rotations.z.value);
       boxRef.value.style.transform = `rotateZ(${rotations.z.value}deg)`;
       break;
   }
 
-  await new Promise(resolve => setTimeout(resolve, 2000)); // 等待动画结束
-  boxRef.value.style.transition = ''; // 移除过渡效果
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // 等待动画结束
+  boxRef.value.style.transition = ""; // 移除过渡效果
   isAnimating.value = false; // 动画结束
 }
-
-
 </script>
 
 <template>
   <section>
     <div id="box" ref="boxRef">
-      <p id="front">⚫</p>
-      <p id="top">⚫⚫</p>
-      <p id="back">⚫⚫⚫</p>
-      <p id="bottom">⚫⚫⚫⚫</p>
-      <p id="left">⚫⚫⚫⚫⚫</p>
-      <p id="right">⚫⚫⚫⚫⚫⚫</p>
+      <div id="front" class="surface"><div>⚫</div></div>
+      <div id="top" class="surface"><div>⚫⚫</div></div>
+      <div id="back" class="surface"><div>⚫⚫⚫</div></div>
+      <div id="bottom" class="surface">
+        <div>⚫⚫</div>
+        <div>⚫⚫</div>
+      </div>
+      <div id="left" class="surface">
+        <div>⚫⚫</div>
+        <div>⚫⚫⚫</div>
+      </div>
+      <div id="right" class="surface">
+        <div>⚫⚫⚫</div>
+        <div>⚫⚫⚫</div>
+      </div>
     </div>
   </section>
 
   <section>
-    <el-button @click="roll()" :disabled="isAnimating" type="primary">掷骰子
+    <el-button @click="roll()" :disabled="isAnimating" type="primary"
+      >掷骰子
       <el-icon><RefreshRight /></el-icon>
     </el-button>
 
     <div class="flex flex-wrap gap-4 items-center">
-      <el-select
-          v-model="piceCount"
-          style="width: 80px"
-      >
+      <el-select v-model="piceCount" style="width: 80px">
         <el-option
-            v-for="val in [1,2,3,4,5,6]"
-            :key="val"
-            :label="val"
-            :value="val"
+          v-for="val in [1, 2, 3, 4, 5, 6]"
+          :key="val"
+          :label="val"
+          :value="val"
         />
       </el-select>
     </div>
   </section>
-
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 * {
   margin: 0;
   padding: 0;
@@ -131,10 +138,10 @@ section {
 
 @keyframes r {
   from {
-    transform: rotateX(0deg) rotateY(0deg)
+    transform: rotateX(0deg) rotateY(0deg);
   }
   to {
-    transform: rotateX(360deg) rotateY(360deg)
+    transform: rotateX(360deg) rotateY(360deg);
   }
 }
 
@@ -147,17 +154,18 @@ section {
   position: relative;
   animation-play-state: paused;
   /* animation: r 1s linear 0s infinite alternate; */
-}
-
-#box p {
-  width: 200px;
-  height: 200px;
-  line-height: 200px;
-  text-align: center;
-  border-radius: 25px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  .surface {
+    width: 200px;
+    height: 200px;
+    border-radius: 25px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 #front {

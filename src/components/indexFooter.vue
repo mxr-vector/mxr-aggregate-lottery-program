@@ -1,20 +1,23 @@
 <template>
   <div>
-    <p>{{formattedCurrentTime }}</p>
+    <p>{{ formattedCurrentTime }}</p>
   </div>
   <footer class="index-footer">
     <div class="clearfix index-footer-info index-con">
-      <div class="lianxi fl">
+      <div class="lianxi fl bottomItem">
         <h2>联系方式</h2>
-        <p>QQ交流群： 287048847 |
-          gitee：<a href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system">aggregate-lottery-system.com</a> |
-          github：XXXXXX
+        <p>
+          QQ交流群： 287048847 | gitee：<a
+            href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system"
+            >aggregate-lottery-system.com</a
+          >
+          | github：XXXXXX
         </p>
         <p>技术支持：vector</p>
       </div>
 
-      <div class="erweima fr">
-        <img src="@/assets/images/qrcode.png"/>
+      <div class="erweima fr bottomItem">
+        <img src="@/assets/images/qrcode.png" />
         <p>联系我们</p>
       </div>
     </div>
@@ -28,24 +31,30 @@
     </div>
   </footer>
 
-
   <el-backtop :bottom="100">
-    <img src="@/assets/images/huojian.svg" style="height: 100%;width: 100%;" alt="top图标">
+    <img
+      src="@/assets/images/huojian.svg"
+      style="height: 100%; width: 100%"
+      alt="top图标"
+    />
   </el-backtop>
-
 </template>
 
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import {formatTime} from "@/assets/ts/utils.ts";
+import { onMounted, ref } from "vue";
+import { formatTime } from "@/assets/ts/utils.ts";
 
-const formattedCurrentTime = ref()
-onMounted(()=>{
+const formattedCurrentTime = ref();
+onMounted(() => {
   setInterval(() => {
-    formattedCurrentTime.value = formatTime(new Date())
-  },1000)
-})
+    formattedCurrentTime.value = formatTime(new Date());
+  }, 1000);
+});
 </script>
 <style scoped>
+.clearfix {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

@@ -86,13 +86,13 @@ button:focus-visible {
 
 .index-footer {
   background: url(@/assets/images/f-bg.png) no-repeat center top #2a2e34;
-  padding: 60px 0 0;
+  padding: 20px 0 0;
   box-sizing: border-box;
   margin-top: 1em;
 }
 
 .index-footer-info {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   padding: 0 100px;
   box-sizing: border-box;
 }
