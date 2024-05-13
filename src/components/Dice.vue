@@ -10,7 +10,7 @@ const rotations = {
 };
 const currentAxis = ref('x'); // 初始旋转轴为X轴
 
-// const piceCount = ref(1)
+const piceCount = ref(1)
 // 定义一个函数来决定下一个旋转的轴和方向
 const getNextRotation = () => {
   const axes = ['x', 'y', 'z'];
@@ -82,19 +82,19 @@ async function roll() {
   <section>
     <el-button @click="roll()" :disabled="isAnimating" size="large">掷骰子</el-button>
 
-<!--    <div class="flex flex-wrap gap-4 items-center">-->
-<!--      <el-select-->
-<!--          v-model="piceCount"-->
-<!--          style="width: 80px"-->
-<!--      >-->
-<!--        <el-option-->
-<!--            v-for="val in [1,2,3,4,5,6]"-->
-<!--            :key="val"-->
-<!--            :label="val"-->
-<!--            :value="val"-->
-<!--        />-->
-<!--      </el-select>-->
-<!--    </div>-->
+    <div class="flex flex-wrap gap-4 items-center">
+      <el-select
+          v-model="piceCount"
+          style="width: 80px"
+      >
+        <el-option
+            v-for="val in [1,2,3,4,5,6]"
+            :key="val"
+            :label="val"
+            :value="val"
+        />
+      </el-select>
+    </div>
   </section>
 
 </template>
