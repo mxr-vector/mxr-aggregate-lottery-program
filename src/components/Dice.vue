@@ -42,6 +42,8 @@ const getNextRotation = () => {
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
   if (beforeRotation.value !== undefined && boxRef.value !== null) {
+    nextTick(); // 等待下一帧
+    boxRef.value.style.transition = "transform 2s ease";
     boxRef.value.style.transform = `rotate${beforeRotation.value.axis}(${beforeRotation.value.rotation}deg)`;
   }
   beforeRotation.value = {axis: nextAxis.toUpperCase(), rotation: -randomAngle}
