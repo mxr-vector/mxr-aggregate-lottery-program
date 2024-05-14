@@ -70,6 +70,7 @@ async function roll() {
     boxRef.value.style.transform = `rotate${beforeRoll.value.axis}(${beforeRoll.value.angle}deg)`;
   }
   beforeRoll.value = {axis, angle: -angle}
+
   // 应用变换
   switch (axis) {
     case "x":

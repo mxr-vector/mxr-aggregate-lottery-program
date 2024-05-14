@@ -54,6 +54,11 @@ function reset() {
   .el-textarea {
     width: 450px !important;
     height: 400px !important;
+    text-align: center;
+    line-height: 80px;
+    margin: 5px;
+    font-size: 32px;
+    font-weight: bolder;
     ::v-deep .el-textarea__inner {
       height: 100%;
     }
