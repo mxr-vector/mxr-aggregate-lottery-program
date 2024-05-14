@@ -19,18 +19,18 @@ const getNextRotation = () => {
   const minAngle = 360; // 或者直接写作 4 * 90，因为360度相当于4个90度
   const maxAngle = 1080; // 同理，1080度是12个90度
   let angleX, angleY, angleZ;
-  // 计算这个范围内有多少个90度的间隔
-  const intervalCount = (maxAngle - minAngle) / 90;
-
-  let randomAngleX = minAngle + Math.floor(Math.random() * intervalCount) * 90;
-  let randomAngleY = minAngle + Math.floor(Math.random() * intervalCount) * 90;
-  let randomAngleZ = minAngle + Math.floor(Math.random() * intervalCount) * 90;
-  angleX = rotations.x.value % 180 === 0 ? randomAngleX : -randomAngleX;
-  angleY = rotations.y.value % 180 === 0 ? randomAngleY : -randomAngleY;
-  angleZ = rotations.z.value % 180 === 0 ? randomAngleZ : -randomAngleZ;
+  angleX = random3D(minAngle, maxAngle, rotations.x.value);
+  angleY = random3D(minAngle, maxAngle, rotations.y.value);
+  angleZ = random3D(minAngle, maxAngle, rotations.z.value);
   return {angleX, angleY, angleZ};
 };
 
+function random3D(minAngle: number, maxAngle: number, angle: number) {
+  // 计算这个范围内有多少个90度的间隔
+  const intervalCount = (maxAngle - minAngle) / 90;
+  const randomAngle = minAngle + Math.floor(Math.random() * intervalCount) * 90; // 随机选择一个90度的360-1080之间的倍数
+  return angle % 360 === 0 ? randomAngle : -randomAngle;
+}
 
 async function roll() {
   if (isAnimating.value || !boxRef.value) return;
@@ -38,9 +38,9 @@ async function roll() {
   isAnimating.value = true;
 
   const {angleX, angleY, angleZ} = getNextRotation();
-  rotations['x'].value = angleX; // 更新旋转角度
-  rotations['y'].value = angleY; // 更新旋转角度
-  rotations['z'].value = angleZ; // 更新旋转角度
+  rotations.x.value = angleX; // 更新旋转角度
+  rotations.y.value = angleY; // 更新旋转角度
+  rotations.z.value = angleZ; // 更新旋转角度
 
   // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
