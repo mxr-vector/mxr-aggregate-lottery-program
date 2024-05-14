@@ -49,6 +49,13 @@ const getNextRotation = () => {
   return {axis: nextAxis, angle};
 };
 
+interface RuleBeforeRoll {
+  axis: string;
+  angle: number;
+}
+
+const beforeRoll = ref<RuleBeforeRoll>()
+
 async function roll() {
   if (isAnimating.value || !boxRef.value) return;
 
@@ -59,6 +66,10 @@ async function roll() {
   // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
   boxRef.value.style.transition = "transform 2s ease";
+  if (beforeRoll.value != undefined) { // 旋转到下一个面时，需要先将之前的旋转角度反向
+    boxRef.value.style.transform = `rotate${beforeRoll.value.axis}(${beforeRoll.value.angle}deg)`;
+  }
+  beforeRoll.value = {axis, angle: -angle}
   // 应用变换
   switch (axis) {
     case "x":
@@ -178,42 +189,42 @@ section {
 
 #front {
   border: 2px solid #343a40;
-  transform: scale3d(0.5,0.5,0.5) translateZ(100px);
+  transform: scale3d(0.5, 0.5, 0.5) translateZ(100px);
   /*background-color: rgba(210, 105, 30, 0.438);*/
   background-color: #fffaf0;
 }
 
 #top {
   border: 2px solid #343a40;
-  transform: scale3d(0.5,0.5,0.5) rotateX(90deg) translateZ(100px);
+  transform: scale3d(0.5, 0.5, 0.5) rotateX(90deg) translateZ(100px);
   /*background-color: rgba(22, 243, 232, 0.226);*/
   background-color: #fffaf0;
 }
 
 #back {
   border: 2px solid #343a40;
-  transform: scale3d(0.5,0.5,0.5) translateZ(-100px);
+  transform: scale3d(0.5, 0.5, 0.5) translateZ(-100px);
   /*background-color: rgba(13, 104, 241, 0.397);*/
   background-color: #fffaf0;
 }
 
 #bottom {
   border: 2px solid #343a40;
-  transform: scale3d(0.5,0.5,0.5) rotateX(-90deg) translateZ(100px);
+  transform: scale3d(0.5, 0.5, 0.5) rotateX(-90deg) translateZ(100px);
   /*background-color: rgba(124, 238, 17, 0.315);*/
   background-color: #fffaf0;
 }
 
 #left {
   border: 2px solid #343a40;
-  transform: scale3d(0.5,0.5,0.5) rotateY(-90deg) translateZ(100px);
+  transform: scale3d(0.5, 0.5, 0.5) rotateY(-90deg) translateZ(100px);
   /*background-color: rgba(233, 10, 177, 0.432);*/
   background-color: #fffaf0;
 }
 
 #right {
   border: 2px solid #343a40;
-  transform: scale3d(0.5,0.5,0.5) rotateY(90deg) translateZ(100px);
+  transform: scale3d(0.5, 0.5, 0.5) rotateY(90deg) translateZ(100px);
   /*background-color: rgba(238, 17, 17, 0.438);*/
   background-color: #fffaf0;
 }
