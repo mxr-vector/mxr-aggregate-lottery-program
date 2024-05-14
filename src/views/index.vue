@@ -48,9 +48,6 @@ onMounted(() => {
       </el-main>
     </el-container>
   </div>
-
-  <!--footer-->
-  <IndexFooter/>
 </template>
 
 <style scoped lang="scss">
