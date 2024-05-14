@@ -13,13 +13,6 @@ const currentAxis = ref("x"); // 初始旋转轴为X轴
 
 const piceCount = ref(1);
 
-// 定义一个函数来决定下一个旋转的轴和方向
-interface RuleBeforeRotation {
-  axis: string;
-  rotation: number;
-}
-
-const beforeRotation = ref<RuleBeforeRotation>()
 const getNextRotation = () => {
   const axes = ["x", "y", "z"];
   const currentIndex = axes.indexOf(currentAxis.value);
