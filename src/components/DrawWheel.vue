@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import {onMounted, reactive, watch} from "vue"; // 导入Vue的onMounted生命周期钩子
+import { onMounted, reactive, watch } from "vue"; // 导入Vue的onMounted生命周期钩子
 
 let canvas: HTMLCanvasElement | null = null; // 定义Canvas元素变量
 let ctx: CanvasRenderingContext2D | null = null; // 定义2D上下文变量
 let rotating = false; // 标志位，表示是否正在旋转
+let randomNumber: number = parseFloat((0.5 + Math.random()).toFixed(2)); // 随机数
 const dpr = window.devicePixelRatio; // 获取设备像素比
 let centerX: number; // 定义圆心X坐标变量
 let centerY: number; // 定义圆心Y坐标变量
 let rotateTimer: NodeJS.Timeout | null = null; // 定义定时器变量
-let rotateTime: number = 5000; // 旋转时间
+let rotateTime: number = 3000 * randomNumber; // 旋转时间
+let rotationAngle: number = 0;
 
 let divideContentList = reactive([
   "1",
@@ -33,7 +35,7 @@ onMounted(() => {
 
     if (ctx) {
       //此段代码是为了让canvas更清晰
-      const {width, height} = canvas;
+      const { width, height } = canvas;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       canvas.style.width = width + "px";
@@ -120,16 +122,26 @@ watch(divideContentList, () => {
 function addData() {
   divideContentList.push("新增");
 }
+// 重置
+function redraw() {
+  ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // 清空画布
+  ctx?.rotate(-rotationAngle); // 旋转到初始状态
+  drawClock();
+}
 
 // 旋转
 function rotateCircular() {
-  console.log(divideContentList);
+  // console.log(divideContentList);
   if (!canvas || !ctx) return; // 如果Canvas元素或2D上下文不存在，则返回
   ctx?.save();
+  randomNumber = parseFloat((0.5 + Math.random()).toFixed(2));
+  console.log(randomNumber);
+  rotationAngle = 0;
   const accelerationTime: number = rotateTime / 5; // 加速时间
   const decelerationTime: number = accelerationTime; // 减速时间
   let alRotatedTime: number = 0; // 旋转时间
-  let rotationSpeed: number = 0.01; // 旋转速度
+  let rotationSpeed: number = 0.01 * randomNumber; // 旋转速度
+
   if (!rotating) {
     rotating = true; // 开始旋转
 
@@ -139,15 +151,16 @@ function rotateCircular() {
       // console.log("时间", alRotatedTime, "速度", rotationSpeed);
       if (alRotatedTime < accelerationTime) {
         // 如果加速时间未到，则加速
-        console.log("加速");
+        // console.log("加速");
         rotationSpeed += 0.002;
       } else if (alRotatedTime > decelerationTime || rotationSpeed > 0.3) {
         // 如果加速时间已到，则减速
-        console.log("减速");
+        // console.log("减速");
         rotationSpeed >= 0 ? (rotationSpeed -= 0.0005) : ""; // 防止速度为负
       }
       drawClock(); // 绘制
       ctx?.rotate(rotationSpeed * Math.PI);
+      rotationAngle += rotationSpeed * Math.PI;
     }, 16); // 每16毫秒旋转一次
     setTimeout(() => {
       clearInterval(rotateTimer!); // 停止旋转
@@ -166,25 +179,27 @@ function rotateCircular() {
     <div class="turnContent">
       <canvas id="clockCanvas" width="500" height="500"></canvas>
       <el-button type="primary" @click="rotateCircular">旋转</el-button>
-      <!-- <button @click="redraw">绘制</button> -->
+      <el-button @click="redraw">重置</el-button>
       <div class="result"></div>
     </div>
     <div class="control">
       <div
-          class="controlItem"
-          v-for="(item, index) in divideContentList"
-          :key="index"
+        class="controlItem"
+        v-for="(item, index) in divideContentList"
+        :key="index"
       >
         <input
-            type="text"
-            :value="item"
-            @input="
+          type="text"
+          :value="item"
+          @input="
             (e) => {
               divideContentList[index] = e.target.value;
             }
           "
         />
-        <div class="deleteItem" @click="divideContentList.splice(index,1)">删除</div>
+        <div class="deleteItem" @click="divideContentList.splice(index, 1)">
+          删除
+        </div>
       </div>
       <el-button @click="addData">新增</el-button>
     </div>

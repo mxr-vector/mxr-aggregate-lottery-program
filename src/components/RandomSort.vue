@@ -59,7 +59,7 @@ function reset() {
     margin: 5px;
     font-size: 32px;
     font-weight: bolder;
-    ::v-deep .el-textarea__inner {
+    :v-deep .el-textarea__inner {
       height: 100%;
     }
   }
