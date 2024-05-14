@@ -193,7 +193,7 @@ function rotateCircular() {
           :value="item"
           @input="
             (e) => {
-              divideContentList[index] = e.target.value;
+              divideContentList[index] = (e.target as HTMLInputElement).value;
             }
           "
         />

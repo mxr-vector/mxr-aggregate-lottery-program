@@ -2,7 +2,7 @@
 import {nextTick, ref} from "vue";
 import {RefreshRight} from "@element-plus/icons-vue";
 
-const boxRef = ref<HTMLElement | null>(null);
+const boxRef = ref<HTMLElement[] | null>(null);
 const isAnimating = ref(false);
 
 const piceCount = ref(1);
@@ -56,7 +56,7 @@ async function rollDetail(item: HTMLElement) {
 </script>
 
 <template>
-  <section v-for="item in piceCount">
+  <section v-for="_ in piceCount">
     <div id="box" ref="boxRef">
       <div id="front" class="surface">
         <div>⚫</div>
