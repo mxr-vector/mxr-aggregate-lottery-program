@@ -33,6 +33,7 @@ function random3D(minAngle: number, maxAngle: number, angle: number) {
 }
 
 async function roll() {
+  console.log(boxRef.value)
   if (isAnimating.value || !boxRef.value) return;
 
   isAnimating.value = true;
@@ -142,7 +143,7 @@ section {
   .surface {
     width: 200px;
     height: 200px;
-    border-radius: 25px;
+    border-radius: 30px;
     position: absolute;
     top: 0;
     left: 0;
