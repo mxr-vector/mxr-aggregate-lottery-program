@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { nextTick, ref } from "vue";
-import { RefreshRight } from "@element-plus/icons-vue";
+import {nextTick, ref} from "vue";
+import {RefreshRight} from "@element-plus/icons-vue";
 
 const boxRef = ref<HTMLElement | null>(null);
 const isAnimating = ref(false);
@@ -12,7 +12,14 @@ const rotations = {
 const currentAxis = ref("x"); // 初始旋转轴为X轴
 
 const piceCount = ref(1);
+
 // 定义一个函数来决定下一个旋转的轴和方向
+interface RuleBeforeRotation {
+  axis: string;
+  rotation: number;
+}
+
+const beforeRotation = ref<RuleBeforeRotation>()
 const getNextRotation = () => {
   const axes = ["x", "y", "z"];
   const currentIndex = axes.indexOf(currentAxis.value);
@@ -34,6 +41,10 @@ const getNextRotation = () => {
   const randomAngle = minAngle + randomInterval * 90;
   // 根据当前轴的旋转角度判断旋转方向，以确保每次旋转到下一个面
   let angle = 90;
+  if (beforeRotation.value !== undefined && boxRef.value !== null) {
+    boxRef.value.style.transform = `rotate${beforeRotation.value.axis}(${beforeRotation.value.rotation}deg)`;
+  }
+  beforeRotation.value = {axis: nextAxis.toUpperCase(), rotation: -randomAngle}
   switch (nextAxis) {
     case "x":
       angle = rotations.x.value % 360 === 0 ? randomAngle : -randomAngle;
@@ -46,7 +57,7 @@ const getNextRotation = () => {
       break;
   }
   currentAxis.value = nextAxis; // 更新当前旋转轴
-  return { axis: nextAxis, angle };
+  return {axis: nextAxis, angle};
 };
 
 async function roll() {
@@ -54,7 +65,7 @@ async function roll() {
 
   isAnimating.value = true;
 
-  const { axis, angle } = getNextRotation();
+  const {axis, angle} = getNextRotation();
   rotations[axis].value = angle; // 更新旋转角度
   // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
@@ -85,9 +96,15 @@ async function roll() {
 <template>
   <section>
     <div id="box" ref="boxRef">
-      <div id="front" class="surface"><div>⚫</div></div>
-      <div id="top" class="surface"><div>⚫⚫</div></div>
-      <div id="back" class="surface"><div>⚫⚫⚫</div></div>
+      <div id="front" class="surface">
+        <div>⚫</div>
+      </div>
+      <div id="top" class="surface">
+        <div>⚫⚫</div>
+      </div>
+      <div id="back" class="surface">
+        <div>⚫⚫⚫</div>
+      </div>
       <div id="bottom" class="surface">
         <div>⚫⚫</div>
         <div>⚫⚫</div>
@@ -101,21 +118,24 @@ async function roll() {
         <div>⚫⚫⚫</div>
       </div>
     </div>
+
   </section>
 
   <section>
     <el-button @click="roll()" :disabled="isAnimating" type="primary"
-      >掷骰子
-      <el-icon><RefreshRight /></el-icon>
+    >掷骰子
+      <el-icon>
+        <RefreshRight/>
+      </el-icon>
     </el-button>
 
     <div class="flex flex-wrap gap-4 items-center">
       <el-select v-model="piceCount" style="width: 80px">
         <el-option
-          v-for="val in [1, 2, 3, 4, 5, 6]"
-          :key="val"
-          :label="val"
-          :value="val"
+            v-for="val in [1, 2, 3, 4, 5, 6]"
+            :key="val"
+            :label="val"
+            :value="val"
         />
       </el-select>
     </div>
