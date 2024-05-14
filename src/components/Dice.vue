@@ -59,7 +59,6 @@ async function roll() {
   // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
   boxRef.value.style.transition = "transform 2s ease";
-
   // 应用变换
   switch (axis) {
     case "x":
@@ -145,14 +144,14 @@ section {
   margin: 50px auto;
 }
 
-@keyframes r {
-  from {
-    transform: rotateX(0deg) rotateY(0deg);
-  }
-  to {
-    transform: rotateX(360deg) rotateY(360deg);
-  }
-}
+//@keyframes r {
+//  from {
+//    transform: rotateX(0deg) rotateY(0deg);
+//  }
+//  to {
+//    transform: rotateX(360deg) rotateY(360deg);
+//  }
+//}
 
 #box {
   width: 200px;
