@@ -56,8 +56,8 @@ async function rollDetail(item: HTMLElement) {
 </script>
 
 <template>
-  <section>
-    <div id="box" ref="boxRef" v-for="item in piceCount">
+  <section v-for="item in piceCount">
+    <div id="box" ref="boxRef">
       <div id="front" class="surface">
         <div>⚫</div>
       </div>
@@ -80,28 +80,26 @@ async function rollDetail(item: HTMLElement) {
         <div>⚫⚫⚫</div>
       </div>
     </div>
-
   </section>
 
-  <section>
+
+  <div class="flex flex-wrap gap-4 items-center">
     <el-button @click="roll()" :disabled="isAnimating" type="primary"
     >掷骰子
       <el-icon>
         <RefreshRight/>
       </el-icon>
     </el-button>
-
-    <div class="flex flex-wrap gap-4 items-center">
-      <el-select v-model="piceCount" style="width: 80px">
-        <el-option
-            v-for="val in [1, 2, 3, 4, 5, 6]"
-            :key="val"
-            :label="val"
-            :value="val"
-        />
-      </el-select>
-    </div>
-  </section>
+    <br/>
+    <el-select v-model="piceCount" style="width: 80px">
+      <el-option
+          v-for="val in [1, 2, 3, 4, 5, 6]"
+          :key="val"
+          :label="val"
+          :value="val"
+      />
+    </el-select>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -116,6 +114,7 @@ section {
   /* 设置景深 */
   perspective: 10000px;
   margin: 50px auto;
+  display: inline-block;
 }
 
 //@keyframes r {
