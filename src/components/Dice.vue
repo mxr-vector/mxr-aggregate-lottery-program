@@ -4,11 +4,6 @@ import {RefreshRight} from "@element-plus/icons-vue";
 
 const boxRef = ref<HTMLElement | null>(null);
 const isAnimating = ref(false);
-const rotations = {
-  x: ref(0),
-  y: ref(0),
-  z: ref(0),
-};
 
 const piceCount = ref(1);
 
@@ -18,50 +13,51 @@ const getNextRotation = () => {
   // 360和1080都是90的倍数，因此我们找出这个范围内90度倍数的最小值和最大值
   const minAngle = 360; // 或者直接写作 4 * 90，因为360度相当于4个90度
   const maxAngle = 1080; // 同理，1080度是12个90度
-  let angleX, angleY, angleZ;
-  angleX = random3D(minAngle, maxAngle, rotations.x.value);
-  angleY = random3D(minAngle, maxAngle, rotations.y.value);
-  angleZ = random3D(minAngle, maxAngle, rotations.z.value);
+  let angleX = random3D(minAngle, maxAngle);
+  let angleY = random3D(minAngle, maxAngle);
+  let angleZ = random3D(minAngle, maxAngle);
   return {angleX, angleY, angleZ};
 };
 
-function random3D(minAngle: number, maxAngle: number, angle: number) {
+function random3D(minAngle: number, maxAngle: number) {
   // 计算这个范围内有多少个90度的间隔
   const intervalCount = (maxAngle - minAngle) / 90;
   const randomAngle = minAngle + Math.floor(Math.random() * intervalCount) * 90; // 随机选择一个90度的360-1080之间的倍数
-  return angle % 360 === 0 ? randomAngle : -randomAngle;
+  return randomAngle % 360 === 0 ? randomAngle : -randomAngle;
 }
 
 async function roll() {
-  console.log(boxRef.value)
   if (isAnimating.value || !boxRef.value) return;
 
+  for (let item of boxRef.value) {
+    rollDetail(item)
+  }
+}
+
+async function rollDetail(item: HTMLElement) {
   isAnimating.value = true;
 
   const {angleX, angleY, angleZ} = getNextRotation();
-  rotations.x.value = angleX; // 更新旋转角度
-  rotations.y.value = angleY; // 更新旋转角度
-  rotations.z.value = angleZ; // 更新旋转角度
 
   // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
-  boxRef.value.style.transition = "transform 2s ease";
+  item.style.transition = "transform 2s ease";
 
   // 应用变换
-  boxRef.value.style.transform = `
-    rotateX(${rotations.x.value}deg)
-    rotateY(${rotations.y.value}deg)
-    rotateZ(${rotations.z.value}deg)
+  item.style.transform = `
+    rotateX(${angleX}deg)
+    rotateY(${angleY}deg)
+    rotateZ(${angleZ}deg)
   `;
   await new Promise((resolve) => setTimeout(resolve, 2000)); // 等待动画结束
-  boxRef.value.style.transition = ""; // 移除过渡效果
+  item.style.transition = ""; // 移除过渡效果
   isAnimating.value = false; // 动画结束
 }
 </script>
 
 <template>
   <section>
-    <div id="box" ref="boxRef">
+    <div id="box" ref="boxRef" v-for="item in piceCount">
       <div id="front" class="surface">
         <div>⚫</div>
       </div>
