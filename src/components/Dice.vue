@@ -2,13 +2,8 @@
 import {nextTick, ref} from "vue";
 import {RefreshRight} from "@element-plus/icons-vue";
 
-const boxRef = ref<HTMLElement | null>(null);
+const boxRef = ref<HTMLElement[] | null>(null);
 const isAnimating = ref(false);
-const rotations = {
-  x: ref(0),
-  y: ref(0),
-  z: ref(0),
-};
 
 const piceCount = ref(1);
 
@@ -18,48 +13,50 @@ const getNextRotation = () => {
   // 360和1080都是90的倍数，因此我们找出这个范围内90度倍数的最小值和最大值
   const minAngle = 360; // 或者直接写作 4 * 90，因为360度相当于4个90度
   const maxAngle = 1080; // 同理，1080度是12个90度
-  let angleX, angleY, angleZ;
-  // 计算这个范围内有多少个90度的间隔
-  const intervalCount = (maxAngle - minAngle) / 90;
-
-  let randomAngleX = minAngle + Math.floor(Math.random() * intervalCount) * 90;
-  let randomAngleY = minAngle + Math.floor(Math.random() * intervalCount) * 90;
-  let randomAngleZ = minAngle + Math.floor(Math.random() * intervalCount) * 90;
-  angleX = rotations.x.value % 180 === 0 ? randomAngleX : -randomAngleX;
-  angleY = rotations.y.value % 180 === 0 ? randomAngleY : -randomAngleY;
-  angleZ = rotations.z.value % 180 === 0 ? randomAngleZ : -randomAngleZ;
+  let angleX = random3D(minAngle, maxAngle);
+  let angleY = random3D(minAngle, maxAngle);
+  let angleZ = random3D(minAngle, maxAngle);
   return {angleX, angleY, angleZ};
 };
 
+function random3D(minAngle: number, maxAngle: number) {
+  // 计算这个范围内有多少个90度的间隔
+  const intervalCount = (maxAngle - minAngle) / 90;
+  const randomAngle = minAngle + Math.floor(Math.random() * intervalCount) * 90; // 随机选择一个90度的360-1080之间的倍数
+  return randomAngle % 360 === 0 ? randomAngle : -randomAngle;
+}
 
 async function roll() {
   if (isAnimating.value || !boxRef.value) return;
 
+  for (let item of boxRef.value) {
+    rollDetail(item)
+  }
+}
+
+async function rollDetail(item: HTMLElement) {
   isAnimating.value = true;
 
   const {angleX, angleY, angleZ} = getNextRotation();
-  rotations['x'].value = angleX; // 更新旋转角度
-  rotations['y'].value = angleY; // 更新旋转角度
-  rotations['z'].value = angleZ; // 更新旋转角度
 
   // console.log(rotations[axis].value);
   await nextTick(); // 等待下一帧
-  boxRef.value.style.transition = "transform 2s ease";
+  item.style.transition = "transform 2s ease";
 
   // 应用变换
-  boxRef.value.style.transform = `
-    rotateX(${rotations.x.value}deg)
-    rotateY(${rotations.y.value}deg)
-    rotateZ(${rotations.z.value}deg)
+  item.style.transform = `
+    rotateX(${angleX}deg)
+    rotateY(${angleY}deg)
+    rotateZ(${angleZ}deg)
   `;
   await new Promise((resolve) => setTimeout(resolve, 2000)); // 等待动画结束
-  boxRef.value.style.transition = ""; // 移除过渡效果
+  item.style.transition = ""; // 移除过渡效果
   isAnimating.value = false; // 动画结束
 }
 </script>
 
 <template>
-  <section>
+  <section v-for="_ in piceCount">
     <div id="box" ref="boxRef">
       <div id="front" class="surface">
         <div>⚫</div>
@@ -83,28 +80,26 @@ async function roll() {
         <div>⚫⚫⚫</div>
       </div>
     </div>
-
   </section>
 
-  <section>
+
+  <div class="flex flex-wrap gap-4 items-center">
     <el-button @click="roll()" :disabled="isAnimating" type="primary"
     >掷骰子
       <el-icon>
         <RefreshRight/>
       </el-icon>
     </el-button>
-
-    <div class="flex flex-wrap gap-4 items-center">
-      <el-select v-model="piceCount" style="width: 80px">
-        <el-option
-            v-for="val in [1, 2, 3, 4, 5, 6]"
-            :key="val"
-            :label="val"
-            :value="val"
-        />
-      </el-select>
-    </div>
-  </section>
+    <br/>
+    <el-select v-model="piceCount" style="width: 80px">
+      <el-option
+          v-for="val in [1, 2, 3, 4, 5, 6]"
+          :key="val"
+          :label="val"
+          :value="val"
+      />
+    </el-select>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -119,6 +114,7 @@ section {
   /* 设置景深 */
   perspective: 10000px;
   margin: 50px auto;
+  display: inline-block;
 }
 
 //@keyframes r {
@@ -142,7 +138,7 @@ section {
   .surface {
     width: 200px;
     height: 200px;
-    border-radius: 25px;
+    border-radius: 30px;
     position: absolute;
     top: 0;
     left: 0;

@@ -4,7 +4,6 @@ import Dice from "@/components/Dice.vue";
 import DrawWheel from "@/components/DrawWheel.vue";
 import RandomDraw from "@/components/RandomDraw.vue";
 import RandomSort from "@/components/RandomSort.vue";
-import IndexFooter from "@/components/indexFooter.vue";
 
 const currentApply = shallowRef(DrawWheel)
 const applyMap = new Map()
@@ -48,9 +47,6 @@ onMounted(() => {
       </el-main>
     </el-container>
   </div>
-
-  <!--footer-->
-  <IndexFooter/>
 </template>
 
 <style scoped lang="scss">

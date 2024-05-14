@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import IndexFooter from "@/components/indexFooter.vue";
 </script>
 
 <template>
     <router-view/>
+  <!--footer-->
+  <IndexFooter/>
 </template>
 
 <style scoped>
