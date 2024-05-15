@@ -4,7 +4,7 @@ import Dice from "@/components/Dice.vue";
 import DrawWheel from "@/components/DrawWheel.vue";
 import RandomDraw from "@/components/RandomDraw.vue";
 import RandomSort from "@/components/RandomSort.vue";
-
+import Scoreboard from "@/components/Scoreboard.vue";
 const currentApply = shallowRef(DrawWheel)
 const applyMap = new Map()
 
@@ -15,6 +15,7 @@ async function initData() {
   applyMap.set('随机抽签器', RandomDraw);
   applyMap.set('骰子', Dice);
   applyMap.set('随机排序', RandomSort);
+  applyMap.set('计分看板', Scoreboard);
 }
 function changeApply(idx: number, applyName: string) {
   curIdx.value = idx
@@ -33,8 +34,8 @@ onMounted(() => {
   <div class="common-layout">
     <el-container>
       <el-header class="headerTop">
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(applyName,index) in applyMap.keys()"
+        <el-row :gutter="20" justify="space-around">
+          <el-col :span="2" v-for="(applyName,index) in applyMap.keys()"
                   :key="index">
             <text :class="[curIdx == index?'textActive':'']" @click="changeApply(index, applyName)">
               {{ applyName }}
