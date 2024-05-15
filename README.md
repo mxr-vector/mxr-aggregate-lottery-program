@@ -7,7 +7,6 @@ gitee：<a href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system">ag
 # 一.随机轮盘
 
 ![随机轮盘.png](public/drawWheel.png)
-
 # 二.随机抽签器
 ![随机抽签器.png](public/randomDraw.png)
 ![随机抽签器2.png](public/randomDraw2.png)
@@ -16,3 +15,6 @@ gitee：<a href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system">ag
 
 # 四.随机排序
 ![随机排序.png](public/randomSort.png)
+
+# 五.记分板
+![记分板.png](public/scoreboard.png)
