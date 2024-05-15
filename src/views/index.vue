@@ -35,7 +35,7 @@ onMounted(() => {
     <el-container>
       <el-header class="headerTop">
         <el-row :gutter="20" justify="space-around">
-          <el-col :span="2" v-for="(applyName,index) in applyMap.keys()"
+          <el-col :span="3" v-for="(applyName,index) in applyMap.keys()"
                   :key="index">
             <text :class="[curIdx == index?'textActive':'']" @click="changeApply(index, applyName)">
               {{ applyName }}
@@ -57,6 +57,7 @@ onMounted(() => {
   line-height: 50px;
 
   .el-col {
+   
     text {
       user-select: none;
       cursor: pointer;

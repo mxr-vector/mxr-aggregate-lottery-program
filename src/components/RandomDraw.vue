@@ -94,12 +94,12 @@ function updateTitle() {
           element-loading-background="rgba(122, 122, 122, 0.8)"
         >
           <div
-            class="cardZItem"
+            :class="[item.open ? 'cardZItem cardZRotate' : 'cardZItem']"
             :style="{ 'background-color': colors[index % colors.length] }"
             v-for="(item, index) in classify"
             @click="pushTableData(item)"
           >
-            <span v-if="item.open">{{ item.content }}</span>
+            <span>{{ item.content }}</span>
           </div>
         </div>
       </template>
@@ -117,7 +117,8 @@ function updateTitle() {
     <el-main style="width: 500px">
       <div>
         <p>
-          &nbsp;&nbsp;&nbsp;&nbsp;本系统采用Fisher-Yates(Knuth shuffle)随机排序法，确保每位用户都能得到公正的结果。只需简单地每行输入一个项目，即每个项目占一行。一旦点击“开始”，你的输入将会变为卡片形式，并随即进行混洗和翻转，增添趣味性。而且，为了让游戏更加个性化，你可以自由编辑卡片标题。但请注意，我们恳请各位保持诚实，不要尝试通过邮件要求特殊优待哦！
+          &nbsp;&nbsp;&nbsp;&nbsp;本系统采用Fisher-Yates(Knuth
+          shuffle)随机排序法，确保每位用户都能得到公正的结果。只需简单地每行输入一个项目，即每个项目占一行。一旦点击“开始”，你的输入将会变为卡片形式，并随即进行混洗和翻转，增添趣味性。而且，为了让游戏更加个性化，你可以自由编辑卡片标题。但请注意，我们恳请各位保持诚实，不要尝试通过邮件要求特殊优待哦！
         </p>
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;请确保你的行为符合当地的法律法规，任何违规操作的责任将由用户自行承担。此外，本页面所提供的服务是“现状”提供的，没有任何形式的保证，无论明示或暗示。让我们一起享受公平且愉快的体验吧！
@@ -143,7 +144,7 @@ function updateTitle() {
   </el-table>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .cardZ {
   display: grid;
   justify-content: space-between;
@@ -157,7 +158,26 @@ function updateTitle() {
   margin: 5px;
   font-size: 32px;
   font-weight: bolder;
+  transform: rotateX(180deg);
+  border: 2px solid goldenrod;
+  box-sizing: border-box;
+
+  span {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1.1s ease-in;
+  }
 }
+
+.cardZRotate {
+  transition: transform 1s;
+  transform: rotateX(0deg);
+  span {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
 .el-aside {
   overflow: hidden;
 }
