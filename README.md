@@ -1,3 +1,4 @@
+[![Security Status](https://www.murphysec.com/platform3/v31/badge/1790612341223518208.svg)](https://www.murphysec.com/console/report/1790612340363685888/1790612341223518208)
 # 聚合抽签系统
 聚合随机抽签 v1.0
 这个项目旨在帮助用户在抽签时，能够快速、准确地获取抽签结果，适用于团建、会议等场景。最重要的是他是开源的，您可以基于本项目进行二次开发，实现自己的抽签系统。！
