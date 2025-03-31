@@ -96,26 +96,35 @@ button:focus-visible {
   padding: 0 100px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
 .index-footer-info .lianxi {
   flex: 1;
-  margin-right: 20px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 300px;
+}
+
+.index-footer-info .lianxi p {
+  text-align: left;
+  margin: 2px 0;
+  line-height: 1.2;
+  width: 100%;
+}
+
+.index-footer-info .bottomItem {
+  color: #cdcdcd;
 }
 
 .index-footer-info .lianxi h2 {
-  color: #cdcdcd;
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-
-.index-footer-info .lianxi p {
-  color: #cdcdcd;
-}
-
 
 .index-footer-info .erweima {
   width: 100px;
@@ -123,16 +132,17 @@ button:focus-visible {
 }
 
 .index-footer-info .erweima img {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   overflow: hidden;
   display: block;
   margin: 0 auto;
 }
 
-.index-footer-info .erweima p {
+.index-footer-info .bottomItem p {
   text-align: center;
-  color: #cdcdcd;
+  margin: 2px 0;
+  line-height: 1.2;
 }
 
 .index-footer-bottom {
