@@ -7,11 +7,13 @@
       <div class="lianxi fl bottomItem">
         <h2>联系方式</h2>
         <p>
-          QQ交流群： 287048847 |
-          gitee：<a href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system">aggregate-lottery-system.com</a>
-          | github：XXXXXX
+          QQ交流群: 287048847 |
+          gitee: <a href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system">Aggregate-lottery-system
+          </a>
+          | github: <a href="https://github.com/YuanJie2001/Aggregate-lottery-system">Aggregate-lottery-system
+          </a>
         </p>
-        <p>技术支持：vector</p>
+        <p>技术支持: vector</p>
       </div>
 
       <div class="erweima fr bottomItem">
