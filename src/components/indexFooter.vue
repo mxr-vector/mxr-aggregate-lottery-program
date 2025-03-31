@@ -3,8 +3,8 @@
     <p>{{ formattedCurrentTime }}</p>
   </div>
   <footer class="index-footer">
-    <div class="clearfix index-footer-info index-con">
-      <div class="lianxi fl bottomItem">
+    <div class="index-footer-info index-con">
+      <div class="lianxi bottomItem">
         <h2>联系方式</h2>
         <p>
           QQ交流群: 287048847 |
@@ -16,7 +16,7 @@
         <p>技术支持: vector</p>
       </div>
 
-      <div class="erweima fr bottomItem">
+      <div class="erweima bottomItem">
         <img src="@/assets/images/qrcode.png"/>
         <p>联系我们</p>
       </div>
@@ -55,7 +55,7 @@ onMounted(() => {
 <style scoped>
 .clearfix {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .bottomText {
