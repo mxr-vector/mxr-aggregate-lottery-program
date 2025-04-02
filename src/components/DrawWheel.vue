@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, reactive, watch, ref } from "vue"; // 导入Vue的onMounted生命周期钩子
+import { onMounted, reactive, watch, ref, computed } from "vue"; // 导入Vue的相关钩子和API
+import { ElMessageBox } from "element-plus"; // 导入Element Plus的消息弹窗组件
 
 let canvas: HTMLCanvasElement | null = null; // 定义Canvas元素变量
 let ctx: CanvasRenderingContext2D | null = null; // 定义2D上下文变量
@@ -9,8 +10,9 @@ const dpr = window.devicePixelRatio; // 获取设备像素比
 let centerX: number; // 定义圆心X坐标变量
 let centerY: number; // 定义圆心Y坐标变量
 let rotateTimer: NodeJS.Timeout | null = null; // 定义定时器变量
-let rotateTime: number = 3000 * randomNumber; // 旋转时间
+let rotateTime: number = 5000; // 基础旋转时间，更长以便有足够的减速时间
 let rotationAngle: number = 0;
+let selectedItem = ref(""); // 存储选中的项目
 let divideContentList = reactive([
   "1",
   "2",
@@ -158,43 +160,104 @@ function redraw() {
   drawClock();
 }
 
+// 使用缓动函数实现平滑减速效果
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3);
+}
+
+// 计算当前指向的扇区
+function calculateSelectedItem(): string {
+  if (!ctx) return "";
+  
+  // 计算当前角度对应的扇区索引
+  // 由于箭头在右侧，需要考虑旋转角度的余数
+  const normalizedAngle = rotationAngle % (Math.PI * 2);
+  const sectorAngle = (Math.PI * 2) / divideContentList.length;
+  
+  // 计算指针指向的扇区索引
+  // 需要考虑旋转方向和指针位置
+  let sectorIndex = Math.floor(((Math.PI * 2) - normalizedAngle) / sectorAngle) % divideContentList.length;
+  
+  return divideContentList[sectorIndex];
+}
+
 // 旋转
 function rotateCircular() {
-  // console.log(divideContentList);
   if (!canvas || !ctx) return; // 如果Canvas元素或2D上下文不存在，则返回
+  if (rotating.value) return; // 如果正在旋转，则不执行
+  
   ctx?.save();
-  randomNumber = parseFloat((0.5 + Math.random()).toFixed(2));
-  // console.log(randomNumber);
-  const accelerationTime: number = rotateTime / 5; // 加速时间
-  const decelerationTime: number = accelerationTime; // 减速时间
-  let alRotatedTime: number = 0; // 旋转时间
-  let rotationSpeed: number = 0.01 * randomNumber; // 旋转速度
+  // 生成更随机的旋转参数
+  randomNumber = parseFloat((0.7 + Math.random() * 0.6).toFixed(2)); // 0.7-1.3之间的随机数
+  const totalRotateTime = rotateTime * randomNumber; // 总旋转时间
+  const accelerationTime: number = totalRotateTime * 0.2; // 加速时间占20%
+  const uniformTime: number = totalRotateTime * 0.3; // 匀速时间占30%
+  const decelerationTime: number = totalRotateTime * 0.5; // 减速时间占50%
+  
+  let alRotatedTime: number = 0; // 已旋转时间
+  let rotationSpeed: number = 0.01; // 初始旋转速度
+  let maxRotationSpeed: number = 0.15 + Math.random() * 0.1; // 最大旋转速度
+  let startDecelerationSpeed: number = 0; // 开始减速时的速度
+  let phase = "acceleration"; // 当前阶段：加速、匀速或减速
 
-  if (!rotating.value) {
-    rotating.value = true; // 开始旋转
+  rotating.value = true; // 开始旋转
 
-    rotateTimer = setInterval(() => {
-      ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // 清空画布
-      alRotatedTime += 16; // 旋转时间累加
-      // console.log("时间", alRotatedTime, "速度", rotationSpeed);
-      if (alRotatedTime < accelerationTime) {
-        // 如果加速时间未到，则加速
-        // console.log("加速");
-        rotationSpeed += 0.002;
-      } else if (alRotatedTime > decelerationTime || rotationSpeed > 0.3) {
-        // 如果加速时间已到，则减速
-        // console.log("减速");
-        rotationSpeed >= 0 ? (rotationSpeed -= 0.0005) : ""; // 防止速度为负
+  rotateTimer = setInterval(() => {
+    ctx?.clearRect(-centerX, -centerY, canvas!.width, canvas!.height); // 清空画布
+    alRotatedTime += 16; // 旋转时间累加（16ms约等于60fps）
+    
+    // 根据不同阶段调整旋转速度
+    if (alRotatedTime < accelerationTime) {
+      // 加速阶段 - 使用easeOutCubic实现平滑加速
+      phase = "acceleration";
+      const progress = alRotatedTime / accelerationTime;
+      rotationSpeed = maxRotationSpeed * easeOutCubic(progress);
+    } else if (alRotatedTime < accelerationTime + uniformTime) {
+      // 匀速阶段
+      phase = "uniform";
+      rotationSpeed = maxRotationSpeed;
+      if (alRotatedTime === accelerationTime) {
+        startDecelerationSpeed = rotationSpeed; // 记录开始减速时的速度
       }
-      drawClock(); // 绘制
-      ctx?.rotate(rotationSpeed * Math.PI);
-      rotationAngle += rotationSpeed * Math.PI;
-    }, 16); // 每16毫秒旋转一次
-    setTimeout(() => {
-      clearInterval(rotateTimer!); // 停止旋转
-      rotating.value = false; // 标志位重置
-    }, rotateTime); // 旋转n秒后停止
-  }
+    } else if (alRotatedTime < totalRotateTime) {
+      // 减速阶段 - 使用easeOutCubic实现平滑减速
+      if (phase !== "deceleration") {
+        phase = "deceleration";
+        startDecelerationSpeed = rotationSpeed; // 记录开始减速时的速度
+      }
+      const progress = (alRotatedTime - accelerationTime - uniformTime) / decelerationTime;
+      rotationSpeed = startDecelerationSpeed * (1 - easeOutCubic(progress));
+    }
+    
+    drawClock(); // 绘制
+    ctx?.rotate(rotationSpeed * Math.PI);
+    rotationAngle += rotationSpeed * Math.PI;
+  }, 16); // 每16毫秒旋转一次
+  
+  setTimeout(() => {
+    clearInterval(rotateTimer!); // 停止旋转
+    rotating.value = false; // 标志位重置
+    
+    // 计算并显示结果
+    selectedItem.value = calculateSelectedItem();
+    showResult();
+  }, totalRotateTime); // 旋转结束后停止
+}
+
+// 显示结果弹窗
+function showResult() {
+  ElMessageBox.alert(
+    `🎉恭喜您抽中了: <span style="color: #409EFF; font-size: 20px; font-weight: bold;">${selectedItem.value}</span>🎉`, 
+    '抽奖结果', 
+    {
+      dangerouslyUseHTMLString: true,
+      confirmButtonText: '确定',
+      center: true,
+      callback: () => {
+        // 可以在这里添加确认后的操作
+      }
+    }
+  );
 }
 </script>
 
