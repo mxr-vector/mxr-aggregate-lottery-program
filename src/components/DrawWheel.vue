@@ -262,35 +262,52 @@ function showResult() {
 </script>
 
 <template>
-  <div class="turnMain">
-    <div class="turnContent">
-      <canvas id="clockCanvas" width="500" height="500"></canvas>
-      <el-button type="primary" @click="rotateCircular">旋转</el-button>
-      <el-button :disabled="rotating" @click="redraw">重置</el-button>
-      <div class="result"></div>
-    </div>
-    <div class="control">
-      <div
-        class="controlItem"
-        v-for="(item, index) in divideContentList"
-        :key="index"
-      >
-        <input
-          type="text"
-          :value="item"
-          @input="
-            (e) => {
-              divideContentList[index] = (e.target as HTMLInputElement).value;
-            }
-          "
-        />
-        <div class="deleteItem" @click="divideContentList.splice(index, 1)">
-          删除
+  <el-container style="flex-flow: wrap">
+    <el-aside width="60%">
+      <div class="turnMain">
+        <div class="turnContent">
+          <canvas id="clockCanvas" width="500" height="500"></canvas>
+          <el-button type="primary" @click="rotateCircular">旋转</el-button>
+          <el-button :disabled="rotating" @click="redraw">重置</el-button>
+          <div class="result"></div>
+        </div>
+        <div class="control">
+          <div
+            class="controlItem"
+            v-for="(item, index) in divideContentList"
+            :key="index"
+          >
+            <input
+              type="text"
+              :value="item"
+              @input="
+                (e) => {
+                  divideContentList[index] = (e.target as HTMLInputElement).value;
+                }
+              "
+            />
+            <div class="deleteItem" @click="divideContentList.splice(index, 1)">
+              删除
+            </div>
+          </div>
+          <el-button :disabled="rotating" @click="addData">新增</el-button>
         </div>
       </div>
-      <el-button :disabled="rotating" @click="addData">新增</el-button>
-    </div>
-  </div>
+    </el-aside>
+    <el-main style="width: 40%">
+      <div>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;本转盘抽奖系统采用物理模拟的旋转算法，结合了加速、匀速和减速三个阶段，通过easeOutCubic缓动函数实现平滑的视觉效果。系统使用随机数生成器确定旋转时间和最大旋转速度，保证每次抽奖结果的随机性和公平性。转盘的每个扇区面积完全相等，确保每个选项被抽中的概率相同。
+        </p>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;使用方法简单：您可以在右侧编辑区域添加、修改或删除选项，系统会自动调整转盘扇区。点击"旋转"按钮后，转盘将开始旋转并最终停止在随机位置，系统会自动计算并显示结果。如需重新开始，可点击"重置"按钮将转盘恢复到初始状态。
+        </p>
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;请确保您的行为符合当地的法律法规，任何违规操作的责任将由用户自行承担。此外，本页面所提供的服务是"现状"提供的，没有任何形式的保证，无论明示或暗示。让我们一起享受公平且愉快的抽奖体验吧！
+        </p>
+      </div>
+    </el-main>
+  </el-container>
 </template>
 
 <style scoped lang="scss">
