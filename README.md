@@ -5,6 +5,7 @@
 技术架构主要为： node18.0.0+,vue3,vite,typescript,element-plus,canvas,vue-router
 
 gitee：<a href="https://gitee.com/WangJiaHui202144/aggregate-lottery-system">aggregate-lottery-system.com</a>
+github：<a href="https://github.com/YuanJie2001/Aggregate-lottery-system">aggregate-lottery-system.com</a>
 # 一.随机轮盘
 
 ![随机轮盘.png](public/drawWheel.png)
