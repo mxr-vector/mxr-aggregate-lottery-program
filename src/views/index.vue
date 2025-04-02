@@ -5,6 +5,7 @@ import DrawWheel from "@/components/DrawWheel.vue";
 import RandomDraw from "@/components/RandomDraw.vue";
 import RandomSort from "@/components/RandomSort.vue";
 import Scoreboard from "@/components/Scoreboard.vue";
+import Group from "@/components/Group.vue";
 const currentApply = shallowRef(DrawWheel)
 const applyMap = new Map()
 
@@ -16,6 +17,7 @@ async function initData() {
   applyMap.set('骰子', Dice);
   applyMap.set('随机排序', RandomSort);
   applyMap.set('计分看板', Scoreboard);
+  applyMap.set('随机分组', Group);
 }
 function changeApply(idx: number, applyName: string) {
   curIdx.value = idx
