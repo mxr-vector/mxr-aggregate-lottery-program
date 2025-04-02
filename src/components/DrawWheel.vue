@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, watch, ref, computed } from "vue"; // 导入Vue的相关钩子和API
+import { onMounted, reactive, watch, ref} from "vue"; // 导入Vue的相关钩子和API
 import { ElMessageBox } from "element-plus"; // 导入Element Plus的消息弹窗组件
 
 let canvas: HTMLCanvasElement | null = null; // 定义Canvas元素变量
