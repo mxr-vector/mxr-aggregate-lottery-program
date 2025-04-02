@@ -32,7 +32,11 @@ a:link, a:visited { text-decoration: none; }
 .clear { clear: both; }
 .clearfix:before, .clearfix:after { display: table; content: ""; line-height: 0; }
 .clearfix:after { clear: both; }
-.clearfix { *zoom: 1; }
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
 .fl{ float:left;}
 .fr{ float:right;}
 .tl{text-align: left;}
