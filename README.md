@@ -20,3 +20,6 @@ github：<a href="https://github.com/YuanJie2001/Aggregate-lottery-system">aggre
 
 # 五.记分板
 ![记分板.png](public/scoreboard.png)
+
+# 六.随机分组
+![输入图片说明](public/randomization.png)
