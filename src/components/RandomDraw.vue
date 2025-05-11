@@ -169,6 +169,7 @@ function updateTitle() {
     visibility: hidden;
     opacity: 0;
     transition: opacity 1.1s ease-in;
+    color: #212121;
   }
 }
 
