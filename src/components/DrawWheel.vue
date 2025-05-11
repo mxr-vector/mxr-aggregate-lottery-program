@@ -262,7 +262,8 @@ function showResult() {
 </script>
 
 <template>
-  <el-container style="flex-flow: wrap">
+  <div class="drawWheelMain">
+    <el-container style="flex-flow: wrap">
     <el-aside width="60%">
       <div class="turnMain">
         <div class="turnContent">
@@ -296,6 +297,7 @@ function showResult() {
     </el-aside>
     <el-main style="width: 40%">
       <div>
+        <h3>随机轮盘算法说明</h3>
         <p>
           &nbsp;&nbsp;&nbsp;&nbsp;本转盘抽奖系统采用物理模拟的旋转算法，结合了加速、匀速和减速三个阶段，通过easeOutCubic缓动函数实现平滑的视觉效果。系统使用随机数生成器确定旋转时间和最大旋转速度，保证每次抽奖结果的随机性和公平性。转盘的每个扇区面积完全相等，确保每个选项被抽中的概率相同。
         </p>
@@ -308,6 +310,7 @@ function showResult() {
       </div>
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <style scoped lang="scss">

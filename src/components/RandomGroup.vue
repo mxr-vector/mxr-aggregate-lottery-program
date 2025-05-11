@@ -66,9 +66,7 @@ function reset() {
 </script>
 
 <template>
-  <div class="groupMain">
-    <h2>随机分组</h2>
-    
+  <div class="randomGroupMain">
     <el-container>
       <el-aside width="400px">
         <el-input

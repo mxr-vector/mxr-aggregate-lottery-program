@@ -5,7 +5,7 @@ import DrawWheel from "@/components/DrawWheel.vue";
 import RandomDraw from "@/components/RandomDraw.vue";
 import RandomSort from "@/components/RandomSort.vue";
 import Scoreboard from "@/components/Scoreboard.vue";
-import Group from "@/components/Group.vue";
+import Group from "@/components/RandomGroup.vue";
 const currentApply = shallowRef(DrawWheel)
 const applyMap = new Map()
 

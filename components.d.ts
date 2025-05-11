@@ -32,6 +32,7 @@ declare module 'vue' {
     Group: typeof import('./src/components/Group.vue')['default']
     IndexFooter: typeof import('./src/components/indexFooter.vue')['default']
     RandomDraw: typeof import('./src/components/RandomDraw.vue')['default']
+    RandomGroup: typeof import('./src/components/RandomGroup.vue')['default']
     RandomSort: typeof import('./src/components/RandomSort.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

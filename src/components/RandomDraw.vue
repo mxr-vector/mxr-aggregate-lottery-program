@@ -83,6 +83,7 @@ function updateTitle() {
 </script>
 
 <template>
+<div class="randomDrawMain">
   <el-container style="flex-flow: wrap">
     <el-aside width="900px">
       <h2>{{ title }}</h2>
@@ -142,6 +143,8 @@ function updateTitle() {
     <el-table-column prop="content" label="结果" align="center" />
     <el-table-column prop="date" label="时间" align="center" />
   </el-table>
+</div>
+
 </template>
 
 <style scoped lang="scss">
