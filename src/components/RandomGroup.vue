@@ -151,7 +151,7 @@ function reset() {
 </template>
 
 <style scoped lang="scss">
-.groupMain {
+.randomGroupMain {
   min-height: 500px;
   
   .nameInput {
